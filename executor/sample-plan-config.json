@@ -1,0 +1,11 @@
+{
+  "build_command": "npm run build",
+  "lint_command": "npm run lint",
+  "test_command": "npm test",
+  "typecheck_command": "npm run typecheck",
+  "timeout_seconds": 600,
+  "max_retries": 3,
+  "auto_fix_lint": true,
+  "strict_mode": true,
+  "parallel_verification": false
+}

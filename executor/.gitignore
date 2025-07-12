@@ -1,0 +1,14 @@
+# Plan execution state
+plan-execution/
+scripts/plan-execution/
+
+# Test plan build artifacts
+test-plan/node_modules/
+test-plan/dist/
+test-plan/package-lock.json
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
