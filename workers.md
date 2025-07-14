@@ -1,18 +1,34 @@
 # Claude Workers Methodology
 
 ## Core Principle
+
 Maintain clean context by delegating work to worker Claudes instead of doing tasks directly. This prevents context corruption and ensures better results.
 
 ## Launching Workers
 
 ### Background Workers
+
 For investigation, analysis, or long-running tasks:
+
 ```bash
 claude --dangerously-skip-permissions -p "Your detailed prompt here. Write a report to /path/to/report.txt" &
 ```
 
+### Background Workers with PID Tracking
+
+To prevent duplicate workers and monitor progress:
+
+```bash
+# Capture PID when launching
+WORKER_PID=$(claude --dangerously-skip-permissions -p "Your task..." > /tmp/worker-$$.log 2>&1 & echo $!)
+echo "Worker PID: $WORKER_PID" >> /tmp/worker-pids.txt
+echo "Started worker with PID: $WORKER_PID"
+```
+
 ### Synchronous Workers
+
 For immediate, focused tasks:
+
 ```bash
 claude --dangerously-skip-permissions -p "Your specific task prompt"
 ```
@@ -27,14 +43,16 @@ claude --dangerously-skip-permissions -p "Your specific task prompt"
 ## Writing Good Worker Prompts
 
 ### Structure
+
 - **Context**: Brief explanation of the situation
 - **Task**: Clear, specific action to perform
 - **Output**: Specify report format and location
 - **Constraints**: Any limitations or requirements
 
 ### Example Background Prompt
+
 ```
-"I need you to investigate the database connection issues in the /services directory. 
+"I need you to investigate the database connection issues in the /services directory.
 Please:
 1. Search for all database-related files
 2. Analyze connection patterns and error handling
@@ -44,6 +62,7 @@ Include file paths, line numbers, and specific recommendations."
 ```
 
 ### Example Synchronous Prompt
+
 ```
 "Fix the syntax error in /src/utils/parser.js line 45. Only fix the syntax, do not refactor."
 ```
@@ -56,9 +75,38 @@ Include file paths, line numbers, and specific recommendations."
 4. **Use appropriate timing** - 5 min for simple tasks, 10+ for complex investigations
 5. **Batch related work** - Launch one worker for related tasks rather than many
 
+## Report Writing Best Practices
+
+1. **Use markdown format** - Workers more reliably write .md files to a reports/ subdirectory
+2. **Create report immediately** - Tell workers to create the report file at startup
+3. **Log progressively** - Instruct workers to log their actions as they work, not just at the end
+4. **Avoid txt/log extensions** - These are written less reliably than .md files
+5. **Use reports subdirectory** - Create reports in `./reports/` rather than `/tmp/`
+
+### Example Report Prompt
+
+```
+"Create a report at ./reports/test-fixes.md immediately. Log all your actions and findings as you work. 
+At the start, write:
+- Task description
+- Start time
+- Initial observations
+
+During work, log:
+- Each file examined
+- Each change made
+- Any errors encountered
+
+At completion, add:
+- Summary of all changes
+- Final results
+- Recommendations"
+```
+
 ## Common Patterns
 
 ### Investigation Pattern
+
 ```bash
 # Launch investigator
 claude --dangerously-skip-permissions -p "Investigate X, write findings to /tmp/x-report.txt" &
@@ -71,6 +119,7 @@ cat /tmp/x-report.txt
 ```
 
 ### Fix Pattern
+
 ```bash
 # For simple fixes, use synchronous
 claude --dangerously-skip-permissions -p "Fix the import error in file.js"
@@ -81,6 +130,7 @@ sleep 600
 ```
 
 ### Parallel Pattern
+
 ```bash
 # Launch multiple workers for independent tasks
 claude --dangerously-skip-permissions -p "Task 1, report to /tmp/task1.txt" &
@@ -88,9 +138,63 @@ claude --dangerously-skip-permissions -p "Task 2, report to /tmp/task2.txt" &
 sleep 300
 ```
 
+## Worker Management
+
+### PID Tracking Pattern
+
+Track worker PIDs to prevent duplicates and monitor progress:
+
+```bash
+# Create PID tracking file
+touch /tmp/worker-pids.txt
+
+# Launch worker with PID capture
+WORKER1_PID=$(claude --dangerously-skip-permissions -p "Task 1..." > /tmp/worker1-$$.log 2>&1 & echo $!)
+echo "Worker 1 PID: $WORKER1_PID" >> /tmp/worker-pids.txt
+
+# Monitor active workers
+ps aux | grep -E "PID|$WORKER1_PID" | grep -v grep
+```
+
+### Worker Monitoring Script
+
+Create a monitoring script to track all workers:
+
+```bash
+#!/bin/bash
+echo "=== Worker Status Monitor ==="
+if [ -f /tmp/worker-pids.txt ]; then
+    while IFS= read -r line; do
+        if [[ $line =~ PID:\ ([0-9]+) ]]; then
+            PID="${BASH_REMATCH[1]}"
+            if ps -p $PID > /dev/null 2>&1; then
+                echo "$line - RUNNING"
+            else
+                echo "$line - COMPLETED"
+            fi
+        fi
+    done < /tmp/worker-pids.txt
+fi
+```
+
+### Preventing Worker Overload
+
+Before launching new workers, check system load:
+
+```bash
+# Check active test processes
+NPM_COUNT=$(ps aux | grep -E "(npm test|vitest)" | grep -v grep | wc -l)
+if [ $NPM_COUNT -gt 5 ]; then
+    echo "Too many test processes ($NPM_COUNT). Waiting for completion..."
+    sleep 300
+fi
+```
+
 ## Why This Matters
+
 - Direct investigation corrupts context with too much information
 - Workers have fresh context for each task
 - Parallel execution is more efficient
 - Reports provide clean summaries without polluting main context
 - Prevents cascade failures from context overload
+- PID tracking prevents duplicate workers and system overload
