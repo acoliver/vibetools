@@ -74,8 +74,8 @@ export default tseslint.config(
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
-        // import.meta.dirname returns undefined on Node < 20.11; fall back to cwd.
-        tsconfigRootDir: import.meta.dirname ?? process.cwd(),
+        // Node 24+ always provides import.meta.dirname.
+        tsconfigRootDir: import.meta.dirname,
       },
       globals: {
         ...globals.node,

@@ -3,6 +3,8 @@
 Canonical TypeScript **lint / complexity / formatting** config, distilled from a
 mature production codebase (flat config, ESLint 9+, `typescript-eslint`).
 
+**Assumes Node 24+.** Add `"engines": { "node": ">=24" }` to your `package.json`.
+
 The source config was heavily customized with monorepo paths, package-specific
 imports, custom ESLint rules, React/Ink internals, and issue-specific size
 enforcement. This template strips all of that, keeping only the **portable core
