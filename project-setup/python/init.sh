@@ -60,9 +60,15 @@ if [[ ! -f "$PYPROJECT" ]]; then
   TMP_FILE="$(mktemp "$TARGET/.pyproject.tmp.XXXXXX")"
   render_template > "$TMP_FILE"
   mv "$TMP_FILE" "$PYPROJECT"
+  TMP_FILE=""   # ownership transferred; trap must not clean it up
   echo "    created pyproject.toml from template"
 else
   MERGE="$TARGET/project-setup-quality.toml"
+  if [[ -e "$MERGE" ]]; then
+    FINISHED_OK=1
+    echo "Error: '$MERGE' already exists. Remove it and re-run." >&2
+    exit 1
+  fi
   render_template > "$MERGE"
   echo "    pyproject.toml already exists."
   echo "    Quality sections written to: $MERGE"

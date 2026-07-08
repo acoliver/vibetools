@@ -36,12 +36,14 @@ function extractRules(configs) {
   return Object.fromEntries(arr.flatMap((c) => Object.entries(c?.rules ?? {})));
 }
 
-/** Map every rule in a config to 'warn' (preserving array-style options). */
+/** Map every rule in a config to 'warn' (preserving array-style options and 'off' rules). */
 function toWarnRules(configs) {
   return Object.fromEntries(
-    Object.entries(extractRules(configs)).map(
-      ([rule, config]) => [rule, Array.isArray(config) ? ['warn', ...config.slice(1)] : 'warn'],
-    ),
+    Object.entries(extractRules(configs)).map(([rule, config]) => {
+      const sev = Array.isArray(config) ? config[0] : config;
+      if (sev === 'off' || sev === 0) return [rule, config];
+      return [rule, Array.isArray(config) ? ['warn', ...config.slice(1)] : 'warn'];
+    }),
   );
 }
 

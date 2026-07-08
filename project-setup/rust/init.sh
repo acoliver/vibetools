@@ -64,8 +64,8 @@ echo "    copied .cargo/config.toml"
 # --- Merge [lints] + [profile] sections into Cargo.toml ---
 CARGO="$TARGET/Cargo.toml"
 SNIPPET="$SCRIPT_DIR/cargo.snippet.toml"
-# Extract [lints.*] and [profile.*] sections (skip comment-only blocks).
-LINT_BODY="$(awk '/^\[(lints|profile)\./{found=1} found && /^\[/ && !/^\[(lints|profile)\./{found=0} found{print}' "$SNIPPET")"
+# Extract [lints.*] and [profile.*] sections from first match to EOF.
+LINT_BODY="$(awk '/^\[(lints|profile)\./{found=1} found{print}' "$SNIPPET")"
 
 if [[ -z "$LINT_BODY" ]] || ! grep -qE '^\[(lints|profile)\.' <<<"$LINT_BODY"; then
   echo "Error: failed to extract sections from $SNIPPET — body is empty." >&2
@@ -91,9 +91,13 @@ else
   if grep -qE '^\[(lints|profile)(\.|\s*\])' "$CARGO"; then
     echo "    WARNING: Cargo.toml already has [lints] or [profile] sections."
     echo "    Review $SNIPPET and merge manually."
+    FINISHED_OK=1  # standalone files were copied; merge is intentionally manual
   else
     # Ensure the file ends with a newline before appending.
-    [[ -n "$(tail -c1 "$CARGO" 2>/dev/null)" ]] && echo "" >> "$CARGO"
+    if [[ -s "$CARGO" ]] && [[ "$(tail -c1 "$CARGO")" != $'
+' ]]; then
+      echo "" >> "$CARGO"
+    fi
     {
       echo "# --- Canonical lint + profile policy from vibetools project-setup/rust ---"
       printf '%s\n' "$LINT_BODY"
