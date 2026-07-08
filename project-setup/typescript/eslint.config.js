@@ -27,6 +27,24 @@ import globals from 'globals';
 // import reactHooks from 'eslint-plugin-react-hooks';
 // import vitest from '@vitest/eslint-plugin';
 
+/**
+ * Extract rules from a plugin config that may be a flat-config array (v4+)
+ * or a legacy object (v3). Returns a plain rules map.
+ */
+function extractRules(configs) {
+  const arr = Array.isArray(configs) ? configs : [configs];
+  return Object.fromEntries(arr.flatMap((c) => Object.entries(c?.rules ?? {})));
+}
+
+/** Map every rule in a config to 'warn' (preserving array-style options). */
+function toWarnRules(configs) {
+  return Object.fromEntries(
+    Object.entries(extractRules(configs)).map(
+      ([rule, config]) => [rule, Array.isArray(config) ? ['warn', ...config.slice(1)] : 'warn'],
+    ),
+  );
+}
+
 export default tseslint.config(
   // ── Global ignores ──────────────────────────────────────────────────────
   {
@@ -140,11 +158,7 @@ export default tseslint.config(
       'max-lines-per-function': ['warn', { max: 80, skipBlankLines: true, skipComments: true }],
 
       // --- SonarJS (recommended at warn, then tune specifics) ---
-      ...Object.fromEntries(
-        Object.entries(sonarjs.configs.recommended.rules ?? {}).map(
-          ([rule, config]) => [rule, Array.isArray(config) ? ['warn', ...config.slice(1)] : 'warn'],
-        ),
-      ),
+      ...toWarnRules(sonarjs.configs.recommended),
       'sonarjs/cognitive-complexity': ['warn', 30],
       'sonarjs/function-return-type': 'off',
       'sonarjs/no-wildcard-import': 'off',
@@ -171,11 +185,7 @@ export default tseslint.config(
       'sonarjs/web-sql-database': 'off',
 
       // --- eslint-comments (recommended at warn) ---
-      ...Object.fromEntries(
-        Object.entries(eslintComments.configs.recommended.rules ?? {}).map(
-          ([rule, config]) => [rule, Array.isArray(config) ? ['warn', ...config.slice(1)] : 'warn'],
-        ),
-      ),
+      ...toWarnRules(eslintComments.configs.recommended),
     },
   },
 
@@ -189,32 +199,16 @@ export default tseslint.config(
     },
   },
 
-  // ── Script files: ESM (.js/.mjs in a "type": "module" project) ─────────
+  // ── Script files: .js/.mjs/.cjs (ESLint 9 auto-detects sourceType) ──────
+  // .mjs → module, .cjs → commonjs, .js → depends on package.json "type".
   {
-    files: ['scripts/**/*.{js,mjs}', '*.config.{js,mjs}'],
+    files: ['scripts/**/*.{js,mjs,cjs}', '*.config.{js,mjs,cjs}'],
     languageOptions: {
-      sourceType: 'module',
       globals: { ...globals.node, process: 'readonly', console: 'readonly' },
     },
     rules: {
       // Use base ESLint rule for plain JS files (the TS parser/plugins are
       // not configured for this block).
-      'no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
-      ],
-    },
-  },
-
-  // ── CommonJS scripts (.cjs) ─────────────────────────────────────────────
-  // Separate block so .cjs files get sourceType: 'commonjs' instead of 'module'.
-  {
-    files: ['scripts/**/*.cjs', '*.config.cjs'],
-    languageOptions: {
-      sourceType: 'commonjs',
-      globals: { ...globals.node, process: 'readonly', console: 'readonly' },
-    },
-    rules: {
       'no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },

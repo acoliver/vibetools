@@ -37,6 +37,9 @@ line-length = 100
 extend-exclude = ["project-plans", "dev-docs", "research"]
 
 [tool.ruff.lint]
+# Only activate preview rules that are explicitly listed in `select`.
+# Prevents implicit activation of unstable rules on ruff updates.
+explicit-preview-rules = true
 select = [
     "E", "W", "F", "I", "N", "UP", "B", "C4", "SIM", "PTH", "RUF",
     "ANN", "S", "PL", "TID", "PT", "TRY", "DTZ",

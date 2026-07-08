@@ -35,7 +35,11 @@ backup_if_exists() {
   if [[ -f "$file" ]]; then
     local bak="${file}.bak"
     if [[ -e "$bak" ]]; then
-      bak="${file}.bak.$(date +%s)"
+      bak="${file}.bak.$(date +%s).$$"
+    fi
+    if ! cp "$file" "$bak"; then
+      echo "Error: failed to back up '$file' — aborting to prevent data loss." >&2
+      exit 1
     fi
     cp "$file" "$bak"
     echo "    WARNING: $(basename "$file") already existed — backed up to $(basename "$bak")"

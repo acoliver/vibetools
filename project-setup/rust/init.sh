@@ -56,12 +56,10 @@ done
 mkdir -p "$TARGET/.cargo"
 if [[ -f "$TARGET/.cargo/config.toml" ]]; then
   backup_if_exists "$TARGET/.cargo/config.toml"
-  cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
-  echo "    copied .cargo/config.toml (existing file was backed up — review the .bak for custom settings to restore)"
-else
-  cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
-  echo "    copied .cargo/config.toml"
+  echo "    (existing .cargo/config.toml was backed up — review the .bak for custom settings to restore)"
 fi
+cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
+echo "    copied .cargo/config.toml"
 
 # --- Merge [lints] + [profile] sections into Cargo.toml ---
 CARGO="$TARGET/Cargo.toml"
@@ -94,8 +92,9 @@ else
     echo "    WARNING: Cargo.toml already has [lints] or [profile] sections."
     echo "    Review $SNIPPET and merge manually."
   else
+    # Ensure the file ends with a newline before appending.
+    [[ -n "$(tail -c1 "$CARGO" 2>/dev/null)" ]] && echo "" >> "$CARGO"
     {
-      echo ""
       echo "# --- Canonical lint + profile policy from vibetools project-setup/rust ---"
       printf '%s\n' "$LINT_BODY"
     } >> "$CARGO"

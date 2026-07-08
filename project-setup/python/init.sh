@@ -11,10 +11,19 @@
 #
 set -euo pipefail
 
+FINISHED_OK=0
+warn_partial() {
+  if [[ $FINISHED_OK -eq 0 ]]; then
+    echo "Error during setup — partial state may remain in target." >&2
+  fi
+}
+trap warn_partial EXIT
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-.}"
 
 if [[ ! -d "$TARGET" ]]; then
+  FINISHED_OK=1
   echo "Error: target directory '$TARGET' does not exist." >&2
   exit 1
 fi
@@ -26,6 +35,7 @@ PACKAGE="${2:-$(basename "$TARGET")}"
 PACKAGE_NORMALIZED="${PACKAGE//-/_}"
 
 if [[ ! "$PACKAGE_NORMALIZED" =~ ^[a-z][_a-z0-9]*$ ]]; then
+  FINISHED_OK=1
   echo "Error: invalid package name '$PACKAGE'." >&2
   echo "       Must be lowercase ASCII letters/digits/hyphens/underscores, starting with a letter." >&2
   exit 1
@@ -34,15 +44,10 @@ fi
 echo "==> Installing Python project-setup into: $TARGET"
 echo "    Package name: $PACKAGE_NORMALIZED"
 
-# Escape sed metacharacters for the '|' delimiter used in render_template.
-escape_pkg() {
-  printf '%s\n' "$PACKAGE_NORMALIZED" | sed 's/[&|\\]/\\&/g'
-}
-ESCAPED_PKG="$(escape_pkg)"
-
-# Render the template with the package name substituted.
+# PACKAGE_NORMALIZED is validated against ^[a-z][_a-z0-9]*$ (no sed
+# metacharacters possible), so it can be substituted directly.
 render_template() {
-  sed "s|YOUR_PACKAGE|$ESCAPED_PKG|g" "$SCRIPT_DIR/pyproject.toml"
+  sed "s|YOUR_PACKAGE|$PACKAGE_NORMALIZED|g" "$SCRIPT_DIR/pyproject.toml"
 }
 
 PYPROJECT="$TARGET/pyproject.toml"
@@ -50,10 +55,8 @@ PYPROJECT="$TARGET/pyproject.toml"
 if [[ ! -f "$PYPROJECT" ]]; then
   # Atomic write: render to a temp file, then move into place.
   TMP_FILE="$(mktemp "$TARGET/.pyproject.tmp.XXXXXX")"
-  trap 'rm -f "$TMP_FILE"' EXIT
   render_template > "$TMP_FILE"
   mv "$TMP_FILE" "$PYPROJECT"
-  trap - EXIT
   echo "    created pyproject.toml from template"
 else
   MERGE="$TARGET/project-setup-quality.toml"
@@ -64,6 +67,7 @@ else
   echo "    then delete $MERGE."
 fi
 
+FINISHED_OK=1
 echo ""
 echo "==> Done. Next steps:"
 echo "    1. Create your package source directories (e.g. src/ and tests/)."
