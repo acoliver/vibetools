@@ -1,0 +1,71 @@
+# ============================================================================
+# Canonical Rust Cargo.toml overrides — lints + profiles.
+# Paste into your Cargo.toml [workspace] or [package] section.
+#
+# This is the STRICTEST coalesced policy from jefe, luther, and personal-agent.
+#
+# Note on incremental compilation:
+#   .cargo/config.toml sets [build] incremental = false as the default, but
+#   the dev and test profiles override this to true by Cargo default. The
+#   [profile.dev] and [profile.test] entries below explicitly disable it so
+#   it is truly off in all profiles.
+#
+# Key decisions (always strictest, never loosened):
+#
+#  unsafe_code = "forbid"
+#     jefe forbids; luther/personal-agent only warn. Forbid is strictest.
+#
+#  cognitive_complexity / too_many_lines / too_many_arguments /
+#  type_complexity / struct_excessive_bools = "deny"
+#     luther denies these; personal-agent only warns. Deny is strictest.
+#
+#  all = deny, pedantic/nursery = warn
+#     jefe and personal-agent both set these; luther does not pin the groups
+#     but does deny the complexity lints individually.
+#
+#  unwrap_used / expect_used / print_stdout / print_stderr = "warn"
+#     jefe sets these. Kept (no source is looser).
+#
+#  todo / unimplemented = "deny"
+#     jefe denies these. Kept.
+#
+#  DROPPED loosenings (jefe had these as `allow` during a "stub phase"; the
+#  canonical config does NOT relax them — they stay at their pedantic/nursery
+#  group default):
+#     needless_pass_by_value, redundant_clone, doc_markdown,
+#     missing_const_for_fn, missing_errors_doc, option_if_let_else
+# ============================================================================
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+
+# Complexity / size lints — deny (strictest).
+cognitive_complexity = "deny"
+too_many_lines = "deny"
+too_many_arguments = "deny"
+type_complexity = "deny"
+struct_excessive_bools = "deny"
+
+# Panic-path and I/O discipline.
+unwrap_used = "warn"
+expect_used = "warn"
+print_stdout = "warn"
+print_stderr = "warn"
+
+# Never leave TODO/unimplemented stubs shipping.
+todo = "deny"
+unimplemented = "deny"
+
+# Disable incremental compilation for dev/test (avoids large incremental
+# artifact growth; keeps CI builds reproducible). .cargo/config.toml sets
+# the build default but profiles override it, so these are needed too.
+[profile.dev]
+incremental = false
+
+[profile.test]
+incremental = false

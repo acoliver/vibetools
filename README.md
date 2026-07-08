@@ -17,7 +17,7 @@ issue so the work and the rationale stay visible.
 | --- | --- | --- |
 | **Writing styleguide** | `docs/writing/styleguide.md` | Available — see #2 |
 | **Planning system** (language-parameterized) | `planning/templates/{language}/` | Available — see #3 |
-| **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Planned — see #4 |
+| **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Available — see #4 |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
 `MOCKING_STRATEGY.md`) are retained as source material and will be folded into the
@@ -69,6 +69,32 @@ into your project, then point an agent at `PLAN.md` and `COORDINATING.md`. See
 > in as their tracking issues (#2, #3, #4) land. Anything that used to live here
 > (`o3helper.js`, `workers.md`, the old `PLAN.md`, and `executor/`) has been removed
 > as obsolete — see #1.
+
+## Project setup
+
+Canonical, language-specific **lint / complexity / formatting / type-check**
+configs live at [`project-setup/`](project-setup/). They were coalesced from
+several production projects and set to the **strictest** value wherever sources
+disagreed.
+
+**How it's organized:**
+
+- [`project-setup/rust/`](project-setup/rust/) — clippy + rustfmt + Cargo lint
+  policy, merged from jefe, luther, and personal-agent (strictest of each).
+- [`project-setup/typescript/`](project-setup/typescript/) — ESLint flat config,
+  tsconfig, Prettier, distilled from a mature production codebase.
+- [`project-setup/python/`](project-setup/python/) — ruff + mypy + pytest +
+  coverage config, distilled from a production Python codebase.
+
+Each language has an `init.sh` installer, and a universal launcher ties them
+together. To set up linting/complexity for a new project, run:
+
+```sh
+project-setup/setup.sh <language> .          # rust | typescript | python
+```
+
+See [`project-setup/README.md`](project-setup/README.md) for full details,
+including the rule-by-rule rationale for how conflicts were resolved.
 
 ## License
 

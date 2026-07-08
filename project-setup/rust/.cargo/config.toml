@@ -1,0 +1,8 @@
+# Disable incremental compilation as the build default. The dev and test
+# profiles override this to true by Cargo default, so [profile.dev] and
+# [profile.test] entries in Cargo.toml (see cargo.snippet.toml) are also
+# needed to fully disable incremental compilation.
+# Source: jefe, luther, personal-agent (all disable incremental compilation).
+
+[build]
+incremental = false
