@@ -1,0 +1,256 @@
+# OCR Review — language-configurable CI workflow.
+#
+# Runs OpenCodeReview (OCR) on pull requests. Observational, non-required by
+# default — pair with your lint/test CI gate as the blocking workflow.
+#
+# Fork-safety: uses pull_request_target so repo secrets are available, but
+# NEVER checks out or executes PR-supplied code while secrets are in scope.
+# The trusted base is checked out first; the PR head is fetched read-only.
+#
+# Required repo variables: OCR_LLM_URL, OCR_LLM_MODEL
+# Required repo secrets:   OCR_LLM_AUTH_TOKEN
+# Optional repo variable:  OCR_LLM_USE_ANTHROPIC (set to "true" for Anthropic)
+#
+# Usage: copy this file to .github/workflows/ocr-review.yml in your repo.
+# Set the LANGUAGE env var below to match your project (rust|typescript|python).
+
+name: OCR Review
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number to review'
+        required: true
+        type: string
+
+# ---- Configure your project language here ----
+env:
+  LANGUAGE: rust
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  OCR_NO_UPDATE: '1'
+  NO_COLOR: '1'
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ocr-review-${{ github.event.pull_request.number || github.event.issue.number || inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  code-review:
+    name: OpenCodeReview
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: |
+      github.event_name == 'pull_request_target' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request != null &&
+       (github.event.comment.author_association == 'OWNER' ||
+        github.event.comment.author_association == 'MEMBER' ||
+        github.event.comment.author_association == 'COLLABORATOR') &&
+       (github.event.comment.body == '/ocr' ||
+        startsWith(github.event.comment.body, '/ocr ') ||
+        startsWith(toJSON(github.event.comment.body), '"/ocr\n') ||
+        startsWith(toJSON(github.event.comment.body), '"/ocr\r\n') ||
+        github.event.comment.body == '/open-code-review' ||
+        startsWith(github.event.comment.body, '/open-code-review ')))
+    steps:
+      # --- Resolve PR context ---
+      - name: Resolve PR context
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        id: pr-context
+        with:
+          script: |
+            const number = (context.payload.pull_request && context.payload.pull_request.number)
+              || (context.issue && context.issue.number)
+              || Number(context.payload.inputs && context.payload.inputs.pr_number);
+            if (!number) { core.setFailed('Could not resolve a PR number.'); return; }
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner, repo: context.repo.repo, pull_number: number,
+            });
+            core.setOutput('number', String(number));
+            core.setOutput('base_sha', pr.base.sha);
+            core.setOutput('head_sha', pr.head.sha);
+
+      # --- Fork-safe checkout: trusted base only, never PR head ---
+      - name: Checkout trusted base
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          ref: ${{ steps.pr-context.outputs.base_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch PR head (read-only)
+        shell: bash
+        env:
+          PR_NUMBER: ${{ steps.pr-context.outputs.number }}
+          HEAD_SHA: ${{ steps.pr-context.outputs.head_sha }}
+          BASE_SHA: ${{ steps.pr-context.outputs.base_sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          { set +x; } 2>/dev/null
+          AUTH_B64="$(printf '%s' "x-access-token:${GH_TOKEN}" | base64 | tr -d '\n')"
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0="http.${GITHUB_SERVER_URL}/.extraheader"
+          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic ${AUTH_B64}"
+          git fetch origin "pull/${PR_NUMBER}/head:pr-head"
+          unset GIT_CONFIG_COUNT GIT_CONFIG_KEY_0 GIT_CONFIG_VALUE_0 AUTH_B64
+          BASE_SHA="$(git merge-base "${BASE_SHA}" pr-head)"
+          {
+            echo "BASE_SHA=${BASE_SHA}"
+            echo "HEAD_SHA=${HEAD_SHA}"
+          } >> "$GITHUB_ENV"
+
+      # --- Install OCR ---
+      - name: Install OpenCodeReview
+        shell: bash
+        run: |
+          set -euo pipefail
+          OCR_PREFIX="${RUNNER_TEMP}/ocr-${GITHUB_RUN_ID}"
+          npm install --prefix "$OCR_PREFIX" --ignore-scripts @alibaba-group/open-code-review@1.7.5
+          echo "${OCR_PREFIX}/node_modules/.bin" >> "$GITHUB_PATH"
+
+      # --- Configure OCR rules (language-specific test includes) ---
+      - name: Configure OCR review rules
+        shell: bash
+        run: |
+          mkdir -p "${HOME}/.opencodereview"
+          # Language-specific test-include patterns. OCR excludes test files by
+          # default; this re-includes them so changed tests are always reviewed.
+          case "${LANGUAGE}" in
+            rust)
+              RULES='{"include":["**/*_test.rs","**/*_tests.rs","**/test_*.rs","**/tests/**","**/test/**"],"exclude":["**/target/**","**/vendor/**","**/generated/**","**/benches/**"]}'
+              ;;
+            typescript)
+              RULES='{"include":["**/*.test.{js,jsx,mjs,cjs,ts,tsx}","**/*.spec.{js,jsx,mjs,cjs,ts,tsx}","**/__tests__/**","**/tests/**","**/test/**"],"exclude":["**/node_modules/**","**/dist/**","**/build/**","**/*.min.js","**/generated/**"]}'
+              ;;
+            python)
+              RULES='{"include":["**/*_test.py","**/test_*.py"],"exclude":["**/.venv/**","**/__pycache__/**","**/.pytest_cache/**","**/.mypy_cache/**","**/generated/**","**/build/**"]}'
+              ;;
+            *)
+              echo "::warning::Unknown LANGUAGE '${LANGUAGE}'. Using default OCR rules (tests may be excluded)."
+              RULES='{}'
+              ;;
+          esac
+          printf '%s' "$RULES" > "${HOME}/.opencodereview/rule.json"
+
+      # --- Run review ---
+      - name: Run OpenCodeReview
+        shell: bash
+        env:
+          BASE_SHA: ${{ env.BASE_SHA }}
+          HEAD_SHA: ${{ env.HEAD_SHA }}
+          OCR_LLM_URL: ${{ vars.OCR_LLM_URL }}
+          OCR_LLM_TOKEN: ${{ secrets.OCR_LLM_AUTH_TOKEN }}
+          OCR_LLM_MODEL: ${{ vars.OCR_LLM_MODEL }}
+          OCR_USE_ANTHROPIC: ${{ vars.OCR_LLM_USE_ANTHROPIC }}
+        run: |
+          : > ocr-result.json
+          : > ocr-stderr.log
+          ocr review \
+            --from "$BASE_SHA" \
+            --to "$HEAD_SHA" \
+            --format json \
+            --audience agent \
+            --timeout 30 \
+            > ocr-result.json 2> ocr-stderr.log || true
+          cat ocr-result.json 2>/dev/null || true
+
+      # --- Post results as PR comment ---
+      - name: Post OCR results
+        if: always()
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        env:
+          PR_NUMBER: ${{ steps.pr-context.outputs.number }}
+          HEAD_SHA: ${{ env.HEAD_SHA }}
+          BASE_SHA: ${{ env.BASE_SHA }}
+        with:
+          script: |
+            const fs = require('fs');
+            const number = Number(process.env.PR_NUMBER);
+            const MARKER = '<!-- ocr-review -->';
+
+            // Parse findings
+            let findings = [];
+            let ran = true;
+            let ranReason = '';
+            try {
+              const raw = fs.readFileSync('ocr-result.json', 'utf8').trim();
+              if (raw) {
+                const parsed = JSON.parse(raw);
+                findings = Array.isArray(parsed) ? parsed
+                  : (parsed && Array.isArray(parsed.comments)) ? parsed.comments : [];
+              }
+            } catch (e) {
+              ran = false;
+              if (e.code === 'ENOENT') {
+                ranReason = 'OCR produced no output file (binary not installed or crashed).';
+              } else {
+                ranReason = 'OCR output could not be parsed: ' + e.message;
+              }
+              core.warning(ranReason);
+            }
+
+            // Build summary
+            const status = !ran ? (ranReason || 'OCR failed to run or parse output.')
+              : findings.length === 0 ? 'No findings.'
+              : `${findings.length} finding(s).`;
+            let body = [
+              MARKER,
+              `## OpenCodeReview — PR #${number}`,
+              '',
+              `- Reviewed head SHA: \`${process.env.HEAD_SHA}\``,
+              `- Merge base: \`${process.env.BASE_SHA}\``,
+              `- ${status}`,
+            ];
+
+            // List findings
+            if (findings.length > 0) {
+              body.push('', '### Findings', '');
+              for (const f of findings) {
+                const path = f.path || '(unknown)';
+                const lines = (f.start_line && f.end_line) ? `:${f.start_line}-${f.end_line}` : '';
+                const text = (f.content || f.comment || f.message || f.body || 'OCR finding')
+                  .replace(/<!--[\s\S]*?-->/g, '').split('\n').slice(0, 10).join('\n');
+                body.push(`**${path}${lines}**`);
+                body.push(`> ${text.replace(/\n/g, '\n> ')}`);
+                body.push('');
+              }
+            }
+
+            if (!ran) {
+              let stderr = '(empty)';
+              try {
+                const rawStderr = fs.readFileSync('ocr-stderr.log', 'utf8').trim();
+                if (rawStderr) stderr = rawStderr;
+              } catch (_) { /* file may not exist if ocr never started */ }
+              body.push('', '### OCR stderr', '', '```text',
+                stderr.slice(0, 4000),
+                '```');
+            }
+
+            // Sticky summary: update or create
+            const summary = body.join('\n');
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: number, per_page: 100,
+            });
+            const existing = comments.find(c => c.body && c.body.includes(MARKER));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body: summary,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: number, body: summary,
+              });
+            }

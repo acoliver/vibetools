@@ -1,0 +1,16 @@
+{
+  "include": [
+    "**/*.test.{js,jsx,mjs,cjs,ts,tsx}",
+    "**/*.spec.{js,jsx,mjs,cjs,ts,tsx}",
+    "**/__tests__/**",
+    "**/tests/**",
+    "**/test/**"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/*.min.js",
+    "**/generated/**"
+  ]
+}

@@ -1,0 +1,67 @@
+# Open Code Review (OCR) — agent command definition.
+#
+# Defines how an AI coding agent should invoke OpenCodeReview as a standing
+# review step alongside the project's lint/test gate. Adapted from the
+# llxprt-code agent command and de-repo-ified for any project.
+#
+# Install: copy this file to <agent-config-dir>/commands/ or reference it
+# from your agent's profile.
+
+[ocr]
+description = "Run OpenCodeReview (ocr) as a standing code review step"
+
+# ---- Workflow ----
+#
+# 1. PREVIEW SCOPE FIRST. Always run `ocr review --preview --from <base> --to <head>`
+#    before the full review. Confirm changed files appear under "Will review",
+#    not "Excluded". If test files are excluded, copy the appropriate
+#    includes/*.json into ~/.opencodereview/rule.json.
+#
+# 2. LAUNCH DETACHED. Never run ocr in the foreground — its output is fully
+#    buffered and the shell process watchdog may SIGTERM-kill it mid-review,
+#    losing all buffered output. Always launch in the background:
+#
+#      nohup ocr review --audience agent --timeout 20 \
+#        --from main --to <branch> > /tmp/ocr_review.log 2>&1 &
+#      echo $! > /tmp/ocr_review.pid
+#
+# 3. POLL. Wait ~60-90 seconds, then check:
+#
+#      ps -p $(cat /tmp/ocr_review.pid) && echo "RUNNING" || echo "DONE"
+#      cat /tmp/ocr_review.log
+#
+#    Repeat until DONE.
+#
+# 4. SET TIMEOUT FLOOR. Always pass --timeout 20 (minimum 20 minutes).
+#    The default is only 10 minutes.
+#
+# 5. TEST FILES. OCR excludes test/spec files by default. The global rule at
+#    ~/.opencodereview/rule.json (or this repo's review-configs/ocr/rule.json)
+#    re-includes them. If a run loses stdout anyway, recover findings from
+#    ~/.opencodereview/sessions/*/*.jsonl (grep for "code_comment" tool calls).
+#
+# 6. CLASSIFY FINDINGS. After the review completes, classify each finding:
+#      High   — correctness bugs, security issues, lint-guardrail violations
+#      Medium — maintainability, missing edge-case handling, DRY violations
+#      Low    — style, naming, minor nits
+#    Fix all High and Medium findings. Evaluate Low findings case by case.
+
+# ---- Configuration reference ----
+#
+# ~/.opencodereview/config.json — LLM provider config (provider, model, API key).
+#   Never hardcode API keys in templates. Use environment variables or the
+#   system keyring.
+#
+# ~/.opencodereview/rule.json — Review rubric + test-include patterns.
+#   See review-configs/ocr/rule.json in this repo.
+#
+# OCR_LLM_* environment variables override config.json for a single run.
+
+# ---- Common args ----
+#   --from <ref>          Base ref (e.g., main, master)
+#   --to <ref>            Target/head ref (e.g., feature-branch)
+#   --commit <hash>       Review a single commit vs its parent
+#   --timeout <minutes>   Per-task timeout floor (always use 20+)
+#   --audience agent      Summary-only output (no progress lines)
+#   --format json         Machine-readable output
+#   --preview             Show which files will be reviewed without running LLM

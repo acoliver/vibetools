@@ -1,0 +1,17 @@
+{
+  "include": [
+    "**/*_test.py",
+    "**/test_*.py"
+  ],
+  "exclude": [
+    "**/.venv/**",
+    "**/__pycache__/**",
+    "**/.pytest_cache/**",
+    "**/.mypy_cache/**",
+    "**/.tox/**",
+    "**/.eggs/**",
+    "**/site-packages/**",
+    "**/generated/**",
+    "**/build/**"
+  ]
+}
