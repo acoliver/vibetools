@@ -13,7 +13,9 @@ non-portable bits (project name, paths).
 | Language | Location | Sources coalesced |
 | --- | --- | --- |
 | **Rust** | [`rust/`](rust/) | jefe, luther, personal-agent |
-| **TypeScript** | [`typescript/`](typescript/) | llxprt-code (production codebase) |
+| **TypeScript** | [`typescript/`](typescript/) | llxprt-code (production codebase, Node 24+) |
+| **Bun** | [`bun/`](bun/) | Derived from TypeScript template; uses Biome toolchain |
+| **Deno** | [`deno/`](deno/) | Derived from TypeScript template; uses Deno built-in tools |
 | **Python** | [`python/`](python/) | aesop (production codebase) |
 
 ## Quick start
@@ -27,6 +29,8 @@ project-setup/setup.sh <language> [target-dir] [package-name]
 # Examples — run from your project root:
 project-setup/setup.sh rust .
 project-setup/setup.sh typescript .
+project-setup/setup.sh bun .
+project-setup/setup.sh deno .
 project-setup/setup.sh python . my_package
 ```
 

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["bun-types"],
+    "lib": ["ESNext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "esnext",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": ["src/**/*", "scripts/**/*"],
+  "exclude": ["node_modules", "dist", "build", "coverage"]
+}

@@ -1,0 +1,15 @@
+# Bun configuration — test runner + resolver settings.
+# Docs: https://bun.sh/docs/runtime/bunfig
+
+[test]
+# Collect tests from the project root by default.
+# (Bun discovers *.test.ts / *.spec.ts files recursively.)
+root = "."
+preload = []
+coverage = true
+coverageThreshold = 80
+coverageReporter = ["text", "lcov"]
+
+# Example resolver override (uncomment to remap a dependency):
+# [install.scopes]
+# "@my-org" = "https://npm.pkg.github.com"
