@@ -46,9 +46,9 @@
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
     "check": "deno check src/",
-    "test": "deno test --allow-all",
-    "test:coverage": "deno test --allow-all --coverage=coverage",
-    "ci": "deno fmt --check && deno lint && deno check src/ && deno test --allow-all"
+    "test": "deno test --allow-read=src,scripts --allow-write=coverage",
+    "test:coverage": "deno test --allow-read=src,scripts --allow-write=coverage --coverage=coverage",
+    "ci": "deno fmt --check && deno lint && deno check src/ && deno test --allow-read=src,scripts --allow-write=coverage"
   },
   "exclude": ["dist/", "node_modules/", "coverage/"],
   "imports": {}

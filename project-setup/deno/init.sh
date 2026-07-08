@@ -45,7 +45,11 @@ backup_if_exists() {
 }
 
 backup_if_exists "$TARGET/deno.json"
-cp "$SCRIPT_DIR/deno.json" "$TARGET/deno.json"
+if ! cp "$SCRIPT_DIR/deno.json" "$TARGET/deno.json.tmp"; then
+  echo "Error: failed to copy deno.json — aborting." >&2
+  exit 1
+fi
+mv "$TARGET/deno.json.tmp" "$TARGET/deno.json"
 echo "    copied deno.json"
 
 FINISHED_OK=1

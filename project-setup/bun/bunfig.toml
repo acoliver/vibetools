@@ -2,11 +2,12 @@
 # Docs: https://bun.sh/docs/runtime/bunfig
 
 [test]
-# Run tests from src/ and tests/ by default.
+# Collect tests from the project root by default.
+# (Bun discovers *.test.ts / *.spec.ts files recursively.)
 root = "."
 preload = []
 coverage = true
-coverageThreshold = 0.8
+coverageThreshold = 80
 coverageReporter = ["text", "lcov"]
 
 # Example resolver override (uncomment to remap a dependency):
