@@ -1,0 +1,46 @@
+# CI quality gate — Rust.
+#
+# Copy to .github/workflows/ci.yml. Coalesced from jefe, luther, and
+# personal-agent into a single sequential job (~50 lines).
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  quality:
+    name: Fmt + Clippy + Build + Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Format check
+        run: cargo fmt --all --check
+
+      - name: Clippy (warnings as errors)
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+      - name: Build
+        run: cargo build --workspace --all-features --locked
+
+      - name: Test
+        run: cargo test --workspace --all-features --locked
