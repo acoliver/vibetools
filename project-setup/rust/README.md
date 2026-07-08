@@ -10,7 +10,7 @@ source projects and set to the **strictest** value wherever they disagreed.
 | `clippy.toml` | Clippy complexity thresholds (cognitive complexity, line count, args, bools, type complexity). |
 | `.rustfmt.toml` | Formatting rules (max width 100, 4-space indent). |
 | `.cargo/config.toml` | Disables incremental compilation (reproducible dev/test builds). |
-| `lints.snippet.toml` | The `[lints.rust]` / `[lints.clippy]` sections to merge into `Cargo.toml`. Profile settings live in `.cargo/config.toml`. |
+| `cargo.snippet.toml` | The `[lints.rust]` / `[lints.clippy]` / `[profile.dev]` / `[profile.test]` sections to merge into `Cargo.toml`. The `.cargo/config.toml` sets the build default for `incremental`; the profile overrides here ensure it is truly off in all profiles. |
 | `init.sh` | One-command installer — copies the configs above and merges lints into `Cargo.toml`. |
 
 ## Quick start

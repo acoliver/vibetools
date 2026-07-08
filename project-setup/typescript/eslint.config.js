@@ -35,7 +35,6 @@ export default tseslint.config(
       'dist/**',
       'build/**',
       'coverage/**',
-      'esbuild.config.js',
     ],
   },
 
@@ -190,10 +189,7 @@ export default tseslint.config(
     },
   },
 
-  // ── Script files: allow CommonJS globals ───────────────────────────────
-  // .cjs files are excluded — they use CommonJS semantics (require/module.exports),
-  // not ES module sourceType. If you have .cjs scripts, add a separate block with
-  // sourceType: 'commonjs'.
+  // ── Script files: ESM (.js/.mjs in a "type": "module" project) ─────────
   {
     files: ['scripts/**/*.{js,mjs}', '*.config.{js,mjs}'],
     languageOptions: {
@@ -203,6 +199,22 @@ export default tseslint.config(
     rules: {
       // Use base ESLint rule for plain JS files (the TS parser/plugins are
       // not configured for this block).
+      'no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ],
+    },
+  },
+
+  // ── CommonJS scripts (.cjs) ─────────────────────────────────────────────
+  // Separate block so .cjs files get sourceType: 'commonjs' instead of 'module'.
+  {
+    files: ['scripts/**/*.cjs', '*.config.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: { ...globals.node, process: 'readonly', console: 'readonly' },
+    },
+    rules: {
       'no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },

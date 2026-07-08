@@ -2,17 +2,26 @@
 #
 # init.sh — install the canonical Rust lint/complexity/format setup into a
 # target Rust project. Copies clippy.toml, .rustfmt.toml, .cargo/config.toml
-# and merges the [lints] sections into Cargo.toml.
+# and merges the [lints] + [profile] sections into Cargo.toml.
 #
 # Usage:
 #   ./init.sh [target-dir]    # default: current directory
 #
 set -euo pipefail
 
+FINISHED_OK=0
+warn_partial() {
+  if [[ $FINISHED_OK -eq 0 ]]; then
+    echo "Error during setup — partial state may remain in target." >&2
+  fi
+}
+trap warn_partial EXIT
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-.}"
 
 if [[ ! -d "$TARGET" ]]; then
+  FINISHED_OK=1
   echo "Error: target directory '$TARGET' does not exist." >&2
   exit 1
 fi
@@ -20,15 +29,19 @@ TARGET="$(cd "$TARGET" && pwd)"
 
 echo "==> Installing Rust project-setup into: $TARGET"
 
-# Back up an existing file to a unique .bak path (avoids clobbering a prior backup).
+# Back up an existing file to a unique .bak path (avoids clobbering a prior
+# backup on re-run). Appends PID for sub-second uniqueness.
 backup_if_exists() {
   local file="$1"
   if [[ -f "$file" ]]; then
     local bak="${file}.bak"
     if [[ -e "$bak" ]]; then
-      bak="${file}.bak.$(date +%s)"
+      bak="${file}.bak.$(date +%s).$$"
     fi
-    cp "$file" "$bak"
+    if ! cp "$file" "$bak"; then
+      echo "Error: failed to back up '$file' — aborting to prevent data loss." >&2
+      exit 1
+    fi
     echo "    WARNING: $(basename "$file") already existed — backed up to $(basename "$bak")"
   fi
 }
@@ -50,13 +63,14 @@ else
   echo "    copied .cargo/config.toml"
 fi
 
-# --- Merge [lints] sections into Cargo.toml ---
+# --- Merge [lints] + [profile] sections into Cargo.toml ---
 CARGO="$TARGET/Cargo.toml"
-# Extract from [lints.rust] through the end of all [lints.*] sections.
-LINT_BODY="$(awk '/^\[lints\./{found=1} found && /^\[/ && !/^\[lints\./{found=0} found{print}' "$SCRIPT_DIR/lints.snippet.toml")"
+SNIPPET="$SCRIPT_DIR/cargo.snippet.toml"
+# Extract [lints.*] and [profile.*] sections (skip comment-only blocks).
+LINT_BODY="$(awk '/^\[(lints|profile)\./{found=1} found && /^\[/ && !/^\[(lints|profile)\./{found=0} found{print}' "$SNIPPET")"
 
-if [[ -z "$LINT_BODY" ]] || ! grep -q '^\[lints\.' <<<"$LINT_BODY"; then
-  echo "Error: failed to extract [lints.*] sections from lints.snippet.toml." >&2
+if [[ -z "$LINT_BODY" ]] || ! grep -qE '^\[(lints|profile)\.' <<<"$LINT_BODY"; then
+  echo "Error: failed to extract sections from $SNIPPET — body is empty." >&2
   exit 1
 fi
 
@@ -71,24 +85,25 @@ if [[ ! -f "$CARGO" ]]; then
     echo ''
     echo '[dependencies]'
     echo ''
-    echo "# --- Canonical lint policy from vibetools project-setup/rust ---"
+    echo "# --- Canonical lint + profile policy from vibetools project-setup/rust ---"
     printf '%s\n' "$LINT_BODY"
   } > "$CARGO"
   echo "    created Cargo.toml (minimal template)"
 else
-  if grep -qE '^\[lints(\.(rust|clippy))?\]' "$CARGO"; then
-    echo "    WARNING: Cargo.toml already has a [lints] section."
-    echo "    Review $SCRIPT_DIR/lints.snippet.toml and merge manually."
+  if grep -qE '^\[(lints|profile)\.' "$CARGO"; then
+    echo "    WARNING: Cargo.toml already has [lints] or [profile] sections."
+    echo "    Review $SNIPPET and merge manually."
   else
     {
       echo ""
-      echo "# --- Canonical lint policy from vibetools project-setup/rust ---"
+      echo "# --- Canonical lint + profile policy from vibetools project-setup/rust ---"
       printf '%s\n' "$LINT_BODY"
     } >> "$CARGO"
-    echo "    merged [lints] sections into Cargo.toml"
+    echo "    merged [lints] + [profile] sections into Cargo.toml"
   fi
 fi
 
+FINISHED_OK=1
 echo ""
 echo "==> Done. Next steps:"
 echo "    1. If your Cargo.toml uses an edition other than 2021, update 'edition' in .rustfmt.toml to match."

@@ -1,12 +1,14 @@
 # ============================================================================
-# Canonical Rust lint policy — paste into your Cargo.toml [workspace] or
-# [package] section. This is the STRICTEST coalesced policy from jefe, luther,
-# and personal-agent.
+# Canonical Rust Cargo.toml overrides — lints + profiles.
+# Paste into your Cargo.toml [workspace] or [package] section.
 #
-# Note: profile settings (incremental = false) are NOT included here — they
-# live in .cargo/config.toml as a global [build] setting, which avoids the
-# risk of duplicate [profile.*] tables when merging into an existing
-# Cargo.toml that already defines profiles.
+# This is the STRICTEST coalesced policy from jefe, luther, and personal-agent.
+#
+# Note on incremental compilation:
+#   .cargo/config.toml sets [build] incremental = false as the default, but
+#   the dev and test profiles override this to true by Cargo default. The
+#   [profile.dev] and [profile.test] entries below explicitly disable it so
+#   it is truly off in all profiles.
 #
 # Key decisions (always strictest, never loosened):
 #
@@ -58,3 +60,12 @@ print_stderr = "warn"
 # Never leave TODO/unimplemented stubs shipping.
 todo = "deny"
 unimplemented = "deny"
+
+# Disable incremental compilation for dev/test (avoids large incremental
+# artifact growth; keeps CI builds reproducible). .cargo/config.toml sets
+# the build default but profiles override it, so these are needed too.
+[profile.dev]
+incremental = false
+
+[profile.test]
+incremental = false
