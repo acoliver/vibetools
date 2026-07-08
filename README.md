@@ -16,7 +16,7 @@ issue so the work and the rationale stay visible.
 | Area | Location | Status / Tracking |
 | --- | --- | --- |
 | **Writing styleguide** | `docs/writing/styleguide.md` | Available — see #2 |
-| **Planning system** (language-parameterized) | `planning/templates/{language}/` | Planned — see #3 |
+| **Planning system** (language-parameterized) | `planning/templates/{language}/` | Available — see #3 |
 | **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Planned — see #4 |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
@@ -41,6 +41,29 @@ A general-purpose writing styleguide lives at [`docs/writing/styleguide.md`](doc
 It was coalesced from project-specific styleguides and stripped of all domain,
 client, and publication specifics so it applies to any non-fiction prose project.
 Point a writer or agent at this file as the canonical writing styleguide.
+
+## Planning
+
+A portable, language-parameterized planning system lives at
+[`planning/templates/`](planning/templates/). It was distilled from a mature
+multi-phase TDD planning system and de-repo-ified so it works for any project.
+
+**How it's organized:**
+
+- [`planning/templates/_base/`](planning/templates/_base/) — language-agnostic docs
+  shared by every language:
+  - [`PLAN.md`](planning/templates/_base/PLAN.md) — the methodology (phases, TDD,
+    integration, fraud detection, verification gates).
+  - [`PLAN-TEMPLATE.md`](planning/templates/_base/PLAN-TEMPLATE.md) — fill-in-the-blanks
+    structure for generating concrete plans.
+  - [`COORDINATING.md`](planning/templates/_base/COORDINATING.md) — rules for
+    executing a plan one phase at a time with isolated subagents.
+- [`planning/templates/{rust,typescript,python}/RULES.md`](planning/templates/rust/RULES.md)
+  — language-specific development rules (typing, testing, mocks, verification).
+
+**To use it:** copy the three `_base/` docs plus the `RULES.md` for your language
+into your project, then point an agent at `PLAN.md` and `COORDINATING.md`. See
+[`planning/templates/README.md`](planning/templates/README.md) for full details.
 
 > Note: this README describes the intended end state. The sections above are filled
 > in as their tracking issues (#2, #3, #4) land. Anything that used to live here
