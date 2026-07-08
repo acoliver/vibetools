@@ -88,7 +88,7 @@ if [[ ! -f "$CARGO" ]]; then
   } > "$CARGO"
   echo "    created Cargo.toml (minimal template)"
 else
-  if grep -qE '^\[(lints|profile)\.' "$CARGO"; then
+  if grep -qE '^\[(lints|profile)(\.|\s*\])' "$CARGO"; then
     echo "    WARNING: Cargo.toml already has [lints] or [profile] sections."
     echo "    Review $SNIPPET and merge manually."
   else

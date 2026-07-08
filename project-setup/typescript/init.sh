@@ -41,7 +41,6 @@ backup_if_exists() {
       echo "Error: failed to back up '$file' — aborting to prevent data loss." >&2
       exit 1
     fi
-    cp "$file" "$bak"
     echo "    WARNING: $(basename "$file") already existed — backed up to $(basename "$bak")"
   fi
 }

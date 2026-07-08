@@ -99,4 +99,4 @@ source = ["YOUR_PACKAGE"]
 
 [tool.coverage.report]
 fail_under = 80
-exclude_lines = ["if TYPE_CHECKING:", "\\.\\.\\."]
+exclude_lines = ["if TYPE_CHECKING:", "^\\s*\\.\\.\\.\\s*$"]

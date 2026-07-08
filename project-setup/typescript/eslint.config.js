@@ -202,17 +202,27 @@ export default tseslint.config(
   // ── Script files: .js/.mjs/.cjs (ESLint 9 auto-detects sourceType) ──────
   // .mjs → module, .cjs → commonjs, .js → depends on package.json "type".
   {
-    files: ['scripts/**/*.{js,mjs,cjs}', '*.config.{js,mjs,cjs}'],
+    files: ['scripts/**/*.{js,mjs,cjs}', '**/*.config.{js,mjs,cjs}'],
     languageOptions: {
       globals: { ...globals.node, process: 'readonly', console: 'readonly' },
     },
     rules: {
-      // Use base ESLint rule for plain JS files (the TS parser/plugins are
-      // not configured for this block).
+      // Re-declare core best-practice rules for plain JS files (the main
+      // block only applies to **/*.{ts,tsx}).
       'no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
       ],
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      'no-var': 'error',
+      'prefer-const': ['error', { destructuring: 'all' }],
+      curly: ['error', 'multi-line'],
+      'no-debugger': 'error',
+      'no-duplicate-case': 'error',
+      'no-unsafe-finally': 'error',
+      radix: 'error',
+      'default-case': 'error',
+      'object-shorthand': 'error',
     },
   },
 

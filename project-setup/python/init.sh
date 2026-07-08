@@ -12,9 +12,12 @@
 set -euo pipefail
 
 FINISHED_OK=0
+TMP_FILE=""
 warn_partial() {
   if [[ $FINISHED_OK -eq 0 ]]; then
     echo "Error during setup — partial state may remain in target." >&2
+    # Clean up orphaned temp file from a failed/interrupted run.
+    [[ -n "$TMP_FILE" && -f "$TMP_FILE" ]] && rm -f "$TMP_FILE"
   fi
 }
 trap warn_partial EXIT
