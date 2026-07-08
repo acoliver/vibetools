@@ -192,10 +192,11 @@ export default tseslint.config(
 
   // ── Script files: allow CommonJS globals ───────────────────────────────
   {
-    files: ['scripts/**/*.{js,mjs,cjs}', '*.config.{js,mjs}'],
-    languageOptions: {
-      globals: { ...globals.node, process: 'readonly', console: 'readonly' },
-    },
+      files: ['scripts/**/*.{js,mjs,cjs}', '*.config.{js,mjs}'],
+      languageOptions: {
+        sourceType: 'module',
+        globals: { ...globals.node, process: 'readonly', console: 'readonly' },
+      },
     rules: {
       // Use base ESLint rule for plain JS files (the TS parser/plugins are
       // not configured for this block).

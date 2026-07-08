@@ -73,14 +73,16 @@ cross-language parity.
 
 ### Testing (pytest)
 
-- `--strict-markers --strict-config` — no silent typos in marker names.
-- `pytest-socket` — blocks accidental network calls (disable per-test with
-  `@pytest.mark.network`).
+- `--strict-markers --strict-config --disable-socket` — no silent typos in
+  marker names; sockets blocked by default (re-enable per-test with
+  `@pytest.mark.network` + the `enable_socket` fixture).
+- `pytest-socket` — blocks accidental network calls.
 - `hypothesis` — property-based testing support.
 
 ### Coverage
 
 - `branch = true` — tracks branch coverage, not just line coverage.
+- `fail_under = 80` — CI fails if coverage drops below 80%.
 - Excludes `if TYPE_CHECKING:` guards and `...` protocol stubs.
 
 ## What was stripped (vs. the source)

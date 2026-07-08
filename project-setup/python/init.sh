@@ -21,6 +21,13 @@ fi
 TARGET="$(cd "$TARGET" && pwd)"
 PACKAGE="${2:-$(basename "$TARGET")}"
 
+# Validate the package name (PEP 508 / PEP 8 conventions).
+if [[ ! "$PACKAGE" =~ ^[a-z][_a-z0-9-]*$ ]]; then
+  echo "Error: invalid package name '$PACKAGE'." >&2
+  echo "       Must be lowercase ASCII letters/digits/hyphens/underscores, starting with a letter." >&2
+  exit 1
+fi
+
 echo "==> Installing Python project-setup into: $TARGET"
 echo "    Package name: $PACKAGE"
 
@@ -38,7 +45,10 @@ render_template() {
 PYPROJECT="$TARGET/pyproject.toml"
 
 if [[ ! -f "$PYPROJECT" ]]; then
-  render_template > "$PYPROJECT"
+  # Atomic write: render to a temp file, then move into place.
+  TMP_FILE="$(mktemp "$TARGET/.pyproject.tmp.XXXXXX")"
+  render_template > "$TMP_FILE"
+  mv "$TMP_FILE" "$PYPROJECT"
   echo "    created pyproject.toml from template"
 else
   MERGE="$TARGET/project-setup-quality.toml"
@@ -53,5 +63,5 @@ echo ""
 echo "==> Done. Next steps:"
 echo "    1. Install dev tools: pip install -e '.[dev]' or uv sync --group dev"
 echo "    2. Run: ruff check ."
-echo "    3. Run: mypy src tests"
+echo "    3. Run: mypy src tests scripts"
 echo "    4. Run: pytest --cov"

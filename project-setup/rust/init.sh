@@ -20,21 +20,28 @@ TARGET="$(cd "$TARGET" && pwd)"
 
 echo "==> Installing Rust project-setup into: $TARGET"
 
+# Back up an existing file to a unique .bak path (avoids clobbering a prior backup).
+backup_if_exists() {
+  local file="$1"
+  if [[ -f "$file" ]]; then
+    local bak="${file}.bak"
+    if [[ -e "$bak" ]]; then
+      bak="${file}.bak.$(date +%s)"
+    fi
+    cp "$file" "$bak"
+    echo "    WARNING: $(basename "$file") already existed — backed up to $(basename "$bak")"
+  fi
+}
+
 # --- Copy standalone config files (backup if already present) ---
 for f in clippy.toml .rustfmt.toml; do
-  if [[ -f "$TARGET/$f" ]]; then
-    cp "$TARGET/$f" "$TARGET/$f.bak"
-    echo "    WARNING: $f already existed — backed up to $f.bak"
-  fi
+  backup_if_exists "$TARGET/$f"
   cp "$SCRIPT_DIR/$f" "$TARGET/$f"
   echo "    copied $f"
 done
 
 mkdir -p "$TARGET/.cargo"
-if [[ -f "$TARGET/.cargo/config.toml" ]]; then
-  cp "$TARGET/.cargo/config.toml" "$TARGET/.cargo/config.toml.bak"
-  echo "    WARNING: .cargo/config.toml already existed — backed up to config.toml.bak"
-fi
+backup_if_exists "$TARGET/.cargo/config.toml"
 cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
 echo "    copied .cargo/config.toml"
 
@@ -43,7 +50,8 @@ echo "    copied .cargo/config.toml"
 # settings live in .cargo/config.toml (global), so there is no risk of
 # duplicate [profile.*] tables.
 CARGO="$TARGET/Cargo.toml"
-LINT_BODY="$(awk '/^\[lints\.rust\]/{found=1} found{print}' "$SCRIPT_DIR/lints.snippet.toml")"
+# Extract from [lints.rust] through the end of all [lints.*] sections.
+LINT_BODY="$(awk '/^\[lints\./{found=1} found && /^\[/ && !/^\[lints\./{found=0} found{print}' "$SCRIPT_DIR/lints.snippet.toml")"
 
 if [[ ! -f "$CARGO" ]]; then
   echo "    No Cargo.toml found — creating a minimal template."
@@ -61,7 +69,7 @@ if [[ ! -f "$CARGO" ]]; then
   } > "$CARGO"
   echo "    created Cargo.toml (minimal template)"
 else
-  if grep -qE '\[lints\.(rust|clippy)\]' "$CARGO"; then
+  if grep -qE '^\[lints(\.(rust|clippy))?\]' "$CARGO"; then
     echo "    WARNING: Cargo.toml already has a [lints] section."
     echo "    Review $SCRIPT_DIR/lints.snippet.toml and merge manually."
   else

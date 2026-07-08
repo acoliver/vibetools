@@ -69,7 +69,7 @@ max-complexity = 15
 strict = true
 disallow_any_explicit = true
 warn_unreachable = true
-files = ["src", "tests"]
+files = ["src", "tests", "scripts"]
 
 # pydantic v2 model subclasses trip `--disallow-any-explicit` at the class
 # definition (pydantic surfaces an inherited Any). If your project uses pydantic
@@ -81,7 +81,7 @@ files = ["src", "tests"]
 
 # ── pytest ──────────────────────────────────────────────────────────────────
 [tool.pytest.ini_options]
-addopts = "--strict-markers --strict-config"
+addopts = "--strict-markers --strict-config --disable-socket"
 markers = [
     "integration: end-to-end tests",
     "property: hypothesis property-based tests",
@@ -95,4 +95,5 @@ branch = true
 source = ["YOUR_PACKAGE"]
 
 [tool.coverage.report]
+fail_under = 80
 exclude_lines = ["if TYPE_CHECKING:", "\\.\\.\\."]

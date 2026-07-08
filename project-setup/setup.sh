@@ -20,11 +20,16 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Discover available languages dynamically (shared by usage + error paths).
 list_languages() {
+  local found=0
   for lang_dir in "$SCRIPT_DIR"/*/; do
     if [[ -f "${lang_dir}init.sh" ]]; then
       echo "  $(basename "$lang_dir")"
+      found=1
     fi
   done
+  if [[ $found -eq 0 ]]; then
+    echo "  (none found — no language directories with init.sh)"
+  fi
 }
 
 if [[ $# -lt 1 ]]; then

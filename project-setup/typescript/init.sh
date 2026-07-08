@@ -9,6 +9,13 @@
 #
 set -euo pipefail
 
+warn_partial() {
+  if [[ $? -ne 0 ]]; then
+    echo "Error during setup — partial state may remain in target." >&2
+  fi
+}
+trap warn_partial EXIT
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-.}"
 
@@ -20,11 +27,21 @@ TARGET="$(cd "$TARGET" && pwd)"
 
 echo "==> Installing TypeScript project-setup into: $TARGET"
 
-for f in eslint.config.js tsconfig.json .prettierrc.json; do
-  if [[ -f "$TARGET/$f" ]]; then
-    cp "$TARGET/$f" "$TARGET/$f.bak"
-    echo "    WARNING: $f already existed — backed up to $f.bak"
+# Back up an existing file to a unique .bak path (avoids clobbering a prior backup).
+backup_if_exists() {
+  local file="$1"
+  if [[ -f "$file" ]]; then
+    local bak="${file}.bak"
+    if [[ -e "$bak" ]]; then
+      bak="${file}.bak.$(date +%s)"
+    fi
+    cp "$file" "$bak"
+    echo "    WARNING: $(basename "$file") already existed — backed up to $(basename "$bak")"
   fi
+}
+
+for f in eslint.config.js tsconfig.json .prettierrc.json; do
+  backup_if_exists "$TARGET/$f"
   cp "$SCRIPT_DIR/$f" "$TARGET/$f"
   echo "    copied $f"
 done
@@ -32,7 +49,7 @@ done
 PKG="$TARGET/package.json"
 if [[ ! -f "$PKG" ]]; then
   echo "    No package.json found — creating a minimal one."
-  cat > "$PKG" <<JSONEOF
+  cat > "$PKG" <<'JSONEOF'
 {
   "name": "change-me",
   "version": "0.1.0",
@@ -44,6 +61,7 @@ JSONEOF
   echo "    created package.json"
 fi
 
+trap - EXIT
 echo ""
 echo "==> Done. Next steps:"
 echo "    1. Merge devDependencies + scripts from:"
