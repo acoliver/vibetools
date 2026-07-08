@@ -43,7 +43,11 @@ select = [
 ]
 
 [tool.ruff.lint.pylint]
+# max-args intentionally exceeds the Rust template's 6: Python's first parameter
+# (self/cls) counts toward the limit, so 8 Python args ≈ 7 in other languages.
 max-args = 8
+# max-statements counts only statements (not blank lines/comments), so it is
+# not directly comparable to the TypeScript max-lines-per-function (80 lines).
 max-statements = 100
 max-locals = 20
 max-nested-blocks = 5
@@ -51,7 +55,9 @@ max-bool-expr = 5
 max-returns = 8
 
 [tool.ruff.lint.mccabe]
-max-complexity = 30
+# Cyclomatic complexity — set to 15 to match the TypeScript ESLint `complexity`
+# threshold (both are cyclomatic complexity metrics) for cross-language parity.
+max-complexity = 15
 
 # Centrally-reviewable rule scoping (NOT inline escape hatches).
 # `assert` (S101) and magic-value comparisons (PLR2004) are expected in tests.
@@ -66,12 +72,12 @@ warn_unreachable = true
 files = ["src", "tests"]
 
 # pydantic v2 model subclasses trip `--disallow-any-explicit` at the class
-# definition (pydantic surfaces an inherited Any). This override scopes the
-# disable to model/data-schema modules ONLY so the strict gate stays active on
-# all logic code. Replace YOUR_PACKAGE.models with your model package path.
-[[tool.mypy.overrides]]
-module = ["YOUR_PACKAGE.models.*"]
-disable_error_code = ["explicit-any"]
+# definition (pydantic surfaces an inherited Any). If your project uses pydantic
+# v2, uncomment this override and replace YOUR_PACKAGE.models with your model
+# package path. Do NOT leave it active as a default if you don't use pydantic.
+# [[tool.mypy.overrides]]
+# module = ["YOUR_PACKAGE.models.*"]
+# disable_error_code = ["explicit-any"]
 
 # ── pytest ──────────────────────────────────────────────────────────────────
 [tool.pytest.ini_options]

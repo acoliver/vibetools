@@ -1,7 +1,7 @@
-# Disable incremental compilation in build profiles.
-# This avoids large incremental-artifact growth during local dev/test cycles
-# and keeps CI builds reproducible.
-# Source: jefe, luther, personal-agent (all disable incremental for dev/test).
+# Disable incremental compilation globally (applies to all profiles: dev,
+# test, release, bench). This avoids large incremental-artifact growth during
+# local dev/test cycles and keeps CI builds reproducible.
+# Source: jefe, luther, personal-agent (all disable incremental compilation).
 
 [build]
 incremental = false

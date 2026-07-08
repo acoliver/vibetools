@@ -35,8 +35,6 @@ export default tseslint.config(
       'dist/**',
       'build/**',
       'coverage/**',
-      '*.config.js',
-      '*.config.mjs',
       'esbuild.config.js',
     ],
   },
@@ -57,7 +55,8 @@ export default tseslint.config(
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        // import.meta.dirname requires Node.js >= 20.11; fall back to cwd.
+        tsconfigRootDir: import.meta.dirname ?? process.cwd(),
       },
       globals: {
         ...globals.node,
@@ -198,7 +197,9 @@ export default tseslint.config(
       globals: { ...globals.node, process: 'readonly', console: 'readonly' },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': [
+      // Use base ESLint rule for plain JS files (the TS parser/plugins are
+      // not configured for this block).
+      'no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
       ],

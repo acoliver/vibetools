@@ -13,23 +13,36 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-.}"
+
+if [[ ! -d "$TARGET" ]]; then
+  echo "Error: target directory '$TARGET' does not exist." >&2
+  exit 1
+fi
 TARGET="$(cd "$TARGET" && pwd)"
 PACKAGE="${2:-$(basename "$TARGET")}"
 
 echo "==> Installing Python project-setup into: $TARGET"
 echo "    Package name: $PACKAGE"
 
+# Escape sed metacharacters (&, /, \) so the package name substitutes safely.
+escape_pkg() {
+  printf '%s\n' "$PACKAGE" | sed 's/[&/\\]/\\&/g'
+}
+ESCAPED_PKG="$(escape_pkg)"
+
+# Render the template with the package name substituted.
+render_template() {
+  sed "s|YOUR_PACKAGE|$ESCAPED_PKG|g" "$SCRIPT_DIR/pyproject.toml"
+}
+
 PYPROJECT="$TARGET/pyproject.toml"
 
 if [[ ! -f "$PYPROJECT" ]]; then
-  # No pyproject.toml — copy the full template and substitute the package name.
-  sed "s/YOUR_PACKAGE/$PACKAGE/g" "$SCRIPT_DIR/pyproject.toml" > "$PYPROJECT"
+  render_template > "$PYPROJECT"
   echo "    created pyproject.toml from template"
 else
-  # pyproject.toml exists — write the quality sections to a separate file for
-  # manual merge (TOML table merging can't be done safely with sed).
   MERGE="$TARGET/project-setup-quality.toml"
-  sed "s/YOUR_PACKAGE/$PACKAGE/g" "$SCRIPT_DIR/pyproject.toml" > "$MERGE"
+  render_template > "$MERGE"
   echo "    pyproject.toml already exists."
   echo "    Quality sections written to: $MERGE"
   echo "    Merge the [tool.*] tables and [dependency-groups] into your pyproject.toml,"

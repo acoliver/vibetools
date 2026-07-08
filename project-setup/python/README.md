@@ -35,14 +35,17 @@ pytest --cov
 
 ## Why these rules
 
-This is a **single-source** setup (one production codebase), so values are kept
-as-is — there were no conflicts to resolve.
+This is a **single-source** setup (one production codebase), so most values are
+kept as-is — there were no conflicts to resolve. The one exception is
+`max-complexity`, lowered from the source's 30 to **15** to match the TypeScript
+ESLint `complexity` threshold (both are cyclomatic complexity) for
+cross-language parity.
 
 ### Complexity limits
 
 | Tool | Rule | Value |
 | --- | --- | --- |
-| ruff/mccabe | `max-complexity` | **30** |
+| ruff/mccabe | `max-complexity` | **15** |
 | ruff/pylint | `max-args` | **8** |
 | ruff/pylint | `max-statements` | **100** |
 | ruff/pylint | `max-locals` | **20** |

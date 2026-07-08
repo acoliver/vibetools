@@ -3,6 +3,11 @@
 # [package] section. This is the STRICTEST coalesced policy from jefe, luther,
 # and personal-agent.
 #
+# Note: profile settings (incremental = false) are NOT included here — they
+# live in .cargo/config.toml as a global [build] setting, which avoids the
+# risk of duplicate [profile.*] tables when merging into an existing
+# Cargo.toml that already defines profiles.
+#
 # Key decisions (always strictest, never loosened):
 #
 #  unsafe_code = "forbid"
@@ -53,13 +58,3 @@ print_stderr = "warn"
 # Never leave TODO/unimplemented stubs shipping.
 todo = "deny"
 unimplemented = "deny"
-
-# ----------------------------------------------------------------------------
-# Profiles — disable incremental compilation for dev/test to avoid large
-# incremental-artifact growth (all three source projects do this).
-# ----------------------------------------------------------------------------
-[profile.dev]
-incremental = false
-
-[profile.test]
-incremental = false

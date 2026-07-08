@@ -11,11 +11,20 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-.}"
+
+if [[ ! -d "$TARGET" ]]; then
+  echo "Error: target directory '$TARGET' does not exist." >&2
+  exit 1
+fi
 TARGET="$(cd "$TARGET" && pwd)"
 
 echo "==> Installing TypeScript project-setup into: $TARGET"
 
 for f in eslint.config.js tsconfig.json .prettierrc.json; do
+  if [[ -f "$TARGET/$f" ]]; then
+    cp "$TARGET/$f" "$TARGET/$f.bak"
+    echo "    WARNING: $f already existed — backed up to $f.bak"
+  fi
   cp "$SCRIPT_DIR/$f" "$TARGET/$f"
   echo "    copied $f"
 done

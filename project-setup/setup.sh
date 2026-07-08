@@ -18,32 +18,39 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <rust|typescript|python> [target-dir] [extra-args...]"
-  echo ""
-  echo "Available languages:"
+# Discover available languages dynamically (shared by usage + error paths).
+list_languages() {
   for lang_dir in "$SCRIPT_DIR"/*/; do
-    lang=$(basename "$lang_dir")
-    if [[ -f "$lang_dir/init.sh" ]]; then
-      echo "  $lang"
+    if [[ -f "${lang_dir}init.sh" ]]; then
+      echo "  $(basename "$lang_dir")"
     fi
   done
+}
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <language> [target-dir] [extra-args...]"
+  echo ""
+  echo "Available languages:"
+  list_languages
   exit 1
 fi
 
 LANG_NAME="$1"
 shift
 
-LANG_DIR="$SCRIPT_DIR/$LANG_NAME"
-
-if [[ ! -d "$LANG_DIR" ]]; then
-  echo "Error: unknown language '$LANG_NAME'"
-  echo "Available languages: rust, typescript, python"
+# Reject path separators / traversal attempts to prevent exec of scripts
+# outside the intended language directories.
+if [[ "$LANG_NAME" == */* || "$LANG_NAME" == *..* ]]; then
+  echo "Error: invalid language name '$LANG_NAME' (must not contain '/' or '..')" >&2
   exit 1
 fi
 
-if [[ ! -f "$LANG_DIR/init.sh" ]]; then
-  echo "Error: no init.sh found for '$LANG_NAME'"
+LANG_DIR="$SCRIPT_DIR/$LANG_NAME"
+
+if [[ ! -d "$LANG_DIR" ]] || [[ ! -f "$LANG_DIR/init.sh" ]]; then
+  echo "Error: unknown language '$LANG_NAME'" >&2
+  echo "Available languages:"
+  list_languages >&2
   exit 1
 fi
 
