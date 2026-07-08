@@ -1,0 +1,16 @@
+# Canonical Rust clippy thresholds — strictest values across all source projects.
+#
+# Sources coalesced: jefe, luther, personal-agent.
+# Rule: pick the LOWEST (strictest) threshold wherever sources disagree.
+#
+#   cognitive-complexity:  jefe=15  <  luther=20  <  personal-agent=45
+#   too-many-lines:        jefe=60  <  personal-agent=100  (luther: unset in clippy.toml)
+#   too-many-arguments:    all agree on 6
+#   max-struct-bools:      all agree on 3
+#   type-complexity:       all agree on 250
+
+cognitive-complexity-threshold = 15
+too-many-lines-threshold = 60
+too-many-arguments-threshold = 6
+max-struct-bools = 3
+type-complexity-threshold = 250

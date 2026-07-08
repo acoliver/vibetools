@@ -1,0 +1,8 @@
+# Canonical Rust formatting config (rustfmt).
+# Source: personal-agent (only project with a .rustfmt.toml).
+# Set `edition` to match the edition in your Cargo.toml.
+
+max_width = 100
+tab_spaces = 4
+hard_tabs = false
+edition = "2021"

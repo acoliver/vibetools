@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# init.sh — install the canonical TypeScript lint/complexity/format setup into
+# a target project. Copies eslint.config.js, tsconfig.json, .prettierrc.json
+# and shows the devDependencies + scripts to merge into package.json.
+#
+# Usage:
+#   ./init.sh [target-dir]    # default: current directory
+#
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TARGET="${1:-.}"
+TARGET="$(cd "$TARGET" && pwd)"
+
+echo "==> Installing TypeScript project-setup into: $TARGET"
+
+for f in eslint.config.js tsconfig.json .prettierrc.json; do
+  cp "$SCRIPT_DIR/$f" "$TARGET/$f"
+  echo "    copied $f"
+done
+
+PKG="$TARGET/package.json"
+if [[ ! -f "$PKG" ]]; then
+  echo "    No package.json found — creating a minimal one."
+  cat > "$PKG" <<JSONEOF
+{
+  "name": "change-me",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {},
+  "devDependencies": {}
+}
+JSONEOF
+  echo "    created package.json"
+fi
+
+echo ""
+echo "==> Done. Next steps:"
+echo "    1. Merge devDependencies + scripts from:"
+echo "       $SCRIPT_DIR/package.devdeps.json"
+echo "       (e.g. npm install -D eslint typescript-eslint eslint-config-prettier \\"
+echo "           eslint-plugin-import eslint-plugin-sonarjs eslint-plugin-eslint-comments \\"
+echo "           globals prettier typescript)"
+echo "    2. For React projects, also install eslint-plugin-react \\"
+echo "       eslint-plugin-react-hooks and uncomment the React block in eslint.config.js."
+echo "    3. For Vitest, install @vitest/eslint-plugin and uncomment the Vitest lines."
+echo "    4. Run: npx eslint . --max-warnings 0"
+echo "    5. Run: npx prettier --check ."
+echo "    6. Run: npx tsc --noEmit"

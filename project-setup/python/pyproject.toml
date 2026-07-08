@@ -1,0 +1,92 @@
+# ============================================================================
+# Canonical Python quality config — merge into your project's pyproject.toml.
+#
+# Source: a production Python codebase (ruff + mypy + pytest + coverage).
+# De-repo-ified: project name, paths, and project-specific per-file-ignores
+# removed. Replace YOUR_PACKAGE with your actual package name.
+#
+# Requires: Python >= 3.11, ruff, mypy, pytest, pytest-cov, pytest-socket,
+#           hypothesis, (optional: radon, xenon, pip-audit, pre-commit)
+# ============================================================================
+
+[project]
+name = "YOUR_PACKAGE"
+version = "0.1.0.dev0"
+requires-python = ">=3.11"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9",
+    "mypy>=1.13",
+    "pytest>=8",
+    "pytest-cov>=6",
+    "pytest-socket>=0.7",
+    "hypothesis>=6",
+    "radon>=6",
+    "xenon>=0.9",
+    "pip-audit>=2.7",
+    "pre-commit>=4",
+]
+
+# ── ruff (lint + format) ────────────────────────────────────────────────────
+[tool.ruff]
+preview = true
+src = ["src", "tests", "scripts"]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["project-plans", "dev-docs", "research"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "N", "UP", "B", "C4", "SIM", "PTH", "RUF",
+    "ANN", "S", "PL", "TID", "PT", "TRY", "DTZ",
+]
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-statements = 100
+max-locals = 20
+max-nested-blocks = 5
+max-bool-expr = 5
+max-returns = 8
+
+[tool.ruff.lint.mccabe]
+max-complexity = 30
+
+# Centrally-reviewable rule scoping (NOT inline escape hatches).
+# `assert` (S101) and magic-value comparisons (PLR2004) are expected in tests.
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR2004"]
+
+# ── mypy (strict type checking) ─────────────────────────────────────────────
+[tool.mypy]
+strict = true
+disallow_any_explicit = true
+warn_unreachable = true
+files = ["src", "tests"]
+
+# pydantic v2 model subclasses trip `--disallow-any-explicit` at the class
+# definition (pydantic surfaces an inherited Any). This override scopes the
+# disable to model/data-schema modules ONLY so the strict gate stays active on
+# all logic code. Replace YOUR_PACKAGE.models with your model package path.
+[[tool.mypy.overrides]]
+module = ["YOUR_PACKAGE.models.*"]
+disable_error_code = ["explicit-any"]
+
+# ── pytest ──────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config"
+markers = [
+    "integration: end-to-end tests",
+    "property: hypothesis property-based tests",
+    "benchmark: performance benchmarks (non-blocking)",
+    "network: tests that intentionally exercise network adapters",
+]
+
+# ── coverage ────────────────────────────────────────────────────────────────
+[tool.coverage.run]
+branch = true
+source = ["YOUR_PACKAGE"]
+
+[tool.coverage.report]
+exclude_lines = ["if TYPE_CHECKING:", "\\.\\.\\."]
