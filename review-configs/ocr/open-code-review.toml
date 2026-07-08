@@ -23,11 +23,11 @@ description = "Run OpenCodeReview (ocr) as a standing code review step"
 #
 #      nohup ocr review --audience agent --timeout 20 \
 #        --from main --to <branch> > /tmp/ocr_review.log 2>&1 &
-#      echo "PID=$!"
+#      echo $! > /tmp/ocr_review.pid
 #
 # 3. POLL. Wait ~60-90 seconds, then check:
 #
-#      ps -p $PID && echo "RUNNING" || echo "DONE"
+#      ps -p $(cat /tmp/ocr_review.pid) && echo "RUNNING" || echo "DONE"
 #      cat /tmp/ocr_review.log
 #
 #    Repeat until DONE.

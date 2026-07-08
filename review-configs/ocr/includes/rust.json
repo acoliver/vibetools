@@ -2,12 +2,14 @@
   "include": [
     "**/*_test.rs",
     "**/*_tests.rs",
+    "**/test_*.rs",
     "**/tests/**",
     "**/test/**"
   ],
   "exclude": [
     "**/target/**",
     "**/vendor/**",
-    "**/generated/**"
+    "**/generated/**",
+    "**/benches/**"
   ]
 }

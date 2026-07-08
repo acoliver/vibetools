@@ -12,8 +12,7 @@
 # Optional repo variable:  OCR_LLM_USE_ANTHROPIC (set to "true" for Anthropic)
 #
 # Usage: copy this file to .github/workflows/ocr-review.yml in your repo.
-# Set the LANGUAGE input below to match your project (rust|typescript|python).
-# Or override per-PR with a /ocr comment.
+# Set the LANGUAGE env var below to match your project (rust|typescript|python).
 
 name: OCR Review
 
@@ -130,13 +129,13 @@ jobs:
           # default; this re-includes them so changed tests are always reviewed.
           case "${LANGUAGE}" in
             rust)
-              RULES='{"include":["**/*_test.rs","**/*_tests.rs","**/tests/**","**/test/**"],"exclude":["**/target/**","**/vendor/**","**/generated/**"]}'
+              RULES='{"include":["**/*_test.rs","**/*_tests.rs","**/test_*.rs","**/tests/**","**/test/**"],"exclude":["**/target/**","**/vendor/**","**/generated/**","**/benches/**"]}'
               ;;
             typescript)
               RULES='{"include":["**/*.test.{js,jsx,mjs,cjs,ts,tsx}","**/*.spec.{js,jsx,mjs,cjs,ts,tsx}","**/__tests__/**","**/tests/**","**/test/**"],"exclude":["**/node_modules/**","**/dist/**","**/build/**","**/*.min.js","**/generated/**"]}'
               ;;
             python)
-              RULES='{"include":["**/*_test.py","**/tests/**/test_*.py","**/test/test_*.py"],"exclude":["**/.venv/**","**/__pycache__/**","**/generated/**","**/build/**"]}'
+              RULES='{"include":["**/*_test.py","**/test_*.py"],"exclude":["**/.venv/**","**/__pycache__/**","**/.pytest_cache/**","**/.mypy_cache/**","**/generated/**","**/build/**"]}'
               ;;
             *)
               echo "::warning::Unknown LANGUAGE '${LANGUAGE}'. Using default OCR rules (tests may be excluded)."
@@ -156,6 +155,8 @@ jobs:
           OCR_LLM_MODEL: ${{ vars.OCR_LLM_MODEL }}
           OCR_USE_ANTHROPIC: ${{ vars.OCR_LLM_USE_ANTHROPIC }}
         run: |
+          : > ocr-result.json
+          : > ocr-stderr.log
           ocr review \
             --from "$BASE_SHA" \
             --to "$HEAD_SHA" \
@@ -163,7 +164,7 @@ jobs:
             --audience agent \
             --timeout 30 \
             > ocr-result.json 2> ocr-stderr.log || true
-          cat ocr-result.json
+          cat ocr-result.json 2>/dev/null || true
 
       # --- Post results as PR comment ---
       - name: Post OCR results
@@ -182,6 +183,7 @@ jobs:
             // Parse findings
             let findings = [];
             let ran = true;
+            let ranReason = '';
             try {
               const raw = fs.readFileSync('ocr-result.json', 'utf8').trim();
               if (raw) {
@@ -191,11 +193,16 @@ jobs:
               }
             } catch (e) {
               ran = false;
-              core.warning('OCR output could not be parsed: ' + e.message);
+              if (e.code === 'ENOENT') {
+                ranReason = 'OCR produced no output file (binary not installed or crashed).';
+              } else {
+                ranReason = 'OCR output could not be parsed: ' + e.message;
+              }
+              core.warning(ranReason);
             }
 
             // Build summary
-            const status = !ran ? 'OCR failed to run or parse output.'
+            const status = !ran ? (ranReason || 'OCR failed to run or parse output.')
               : findings.length === 0 ? 'No findings.'
               : `${findings.length} finding(s).`;
             let body = [
@@ -222,8 +229,13 @@ jobs:
             }
 
             if (!ran) {
+              let stderr = '(empty)';
+              try {
+                const rawStderr = fs.readFileSync('ocr-stderr.log', 'utf8').trim();
+                if (rawStderr) stderr = rawStderr;
+              } catch (_) { /* file may not exist if ocr never started */ }
               body.push('', '### OCR stderr', '', '```text',
-                (fs.readFileSync('ocr-stderr.log', 'utf8').trim() || '(empty)').slice(0, 4000),
+                stderr.slice(0, 4000),
                 '```');
             }
 

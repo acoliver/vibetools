@@ -10,13 +10,13 @@ shared OCR rubric.
 
 | File | What it is |
 | --- | --- |
-| `.coderabbit.yaml` | CodeRabbit config: language setting, auto-review on PRs from main, assertive profile, custom review instructions mirroring the OCR rubric, tool integration placeholders, path filters. |
+| `.coderabbit.yaml` | CodeRabbit config: auto-review on PRs from main, assertive profile, custom review instructions mirroring the OCR rubric, tool integration placeholders, path filters. |
 
 ## Key design decisions
 
 ### Review instructions
 
-The `review_instructions` block mirrors the OCR `rule.json` rubric so both
+The `instructions` block mirrors the OCR `rule.json` rubric so both
 tools enforce the same quality bar:
 
 1. Correctness (control flow, edge cases, error handling, async safety)
@@ -49,7 +49,6 @@ cp review-configs/coderabbit/.coderabbit.yaml your-project/.coderabbit.yaml
 ```
 
 Then edit:
-- `language:` — set to your project's primary language.
 - `tools:` — uncomment the linters you use.
 - `path_filters:` — uncomment and adjust for your generated/vendored dirs.
 

@@ -4,16 +4,12 @@
 # pick it up automatically. Adjust language, tools, and review instructions
 # for your project.
 #
-# Docs: https://coderabbit.ai/integrations/coderabbit-overrides
-# Schema: https://coderabbit.ai/integrations/schema
-
-# ---- Language ----
-# Set to your project's primary language for more accurate reviews.
-language: Rust  # Rust | TypeScript | JavaScript | Python | Go | Java | ...
+# Docs: https://docs.coderabbit.ai/reference/configuration
+# Schema: https://catalog.lintel.tools/schemas/schemastore/coderabbit/
 
 # ---- Review ----
 reviews:
-  # Generate high-level summaries of the PR.
+  # Auto-review: trigger CodeRabbit on PR open/update automatically.
   auto_review:
     # Review new PRs automatically when opened or updated.
     enabled: true
@@ -26,10 +22,10 @@ reviews:
   # Review profile: choose "assertive" (more findings) or "chill" (fewer).
   profile: assertive
 
-  # Review instructions — extend CodeRabbit's defaults with project-specific
-  # policy. This mirrors the OCR rule.json rubric so both tools enforce the
+  # Global review instructions — applies to every file in every PR.
+  # This mirrors the OCR rule.json rubric so both tools enforce the
   # same quality bar.
-  review_instructions: |
+  instructions: |
     Review as a senior engineer. Prioritize, in order:
     1. Correctness — trace control flow, edge cases, error handling, async safety.
     2. Contract mismatch — code contradicts comments, names, or intent.

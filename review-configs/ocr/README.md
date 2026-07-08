@@ -12,7 +12,7 @@ a production-quality automated review setup in minutes.
 | `includes/rust.json` | Rust-specific test-include/exclude patterns for `rule.json`. |
 | `includes/typescript.json` | TypeScript-specific test-include/exclude patterns for `rule.json`. |
 | `includes/python.json` | Python-specific test-include/exclude patterns for `rule.json`. |
-| `ocr-review.yml` | Language-configurable GitHub Actions CI workflow. Fork-safe (`pull_request_target`), secret-redacting, posts findings as a sticky PR comment. Triggers on PR open/sync/reopen and `/ocr` comment. **244 lines** — radically simplified from the 1297-line source. |
+| `ocr-review.yml` | Language-configurable GitHub Actions CI workflow. Fork-safe (`pull_request_target`), posts findings as a sticky PR comment. Triggers on PR open/sync/reopen and `/ocr` comment. **244 lines** — radically simplified from the 1297-line source. |
 | `review-prompt.md` | Rigorous multi-phase plan-review prompt (12 review dimensions, BLOCKER/MAJOR/MINOR/PEDANTIC severity, PASS/FAIL verdict with evidence). De-repo-ified from jefe. |
 | `open-code-review.toml` | Agent command definition: background-launch pattern, polling workflow, scope-preview-first methodology, finding classification rubric. De-repo-ified from llxprt-code. |
 
