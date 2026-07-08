@@ -1,0 +1,76 @@
+# CodeRabbit configuration template.
+#
+# Copy this file to your project root as .coderabbit.yaml. CodeRabbit will
+# pick it up automatically. Adjust language, tools, and review instructions
+# for your project.
+#
+# Docs: https://coderabbit.ai/integrations/coderabbit-overrides
+# Schema: https://coderabbit.ai/integrations/schema
+
+# ---- Language ----
+# Set to your project's primary language for more accurate reviews.
+language: Rust  # Rust | TypeScript | JavaScript | Python | Go | Java | ...
+
+# ---- Review ----
+reviews:
+  # Generate high-level summaries of the PR.
+  auto_review:
+    # Review new PRs automatically when opened or updated.
+    enabled: true
+    # Ignore drafts.
+    drafts: false
+    # Review PRs from base branches only.
+    base_branches:
+      - main
+
+  # Review profile: choose "assertive" (more findings) or "chill" (fewer).
+  profile: assertive
+
+  # Review instructions — extend CodeRabbit's defaults with project-specific
+  # policy. This mirrors the OCR rule.json rubric so both tools enforce the
+  # same quality bar.
+  review_instructions: |
+    Review as a senior engineer. Prioritize, in order:
+    1. Correctness — trace control flow, edge cases, error handling, async safety.
+    2. Contract mismatch — code contradicts comments, names, or intent.
+    3. Type safety — no unnecessary Any/any, prefer narrowing, Result/Option.
+    4. Security — injection, unvalidated input, secrets.
+    5. Maintainability — dead code, duplication, non-idiomatic patterns.
+
+    For test files: verify tests assert behavior (not implementation details),
+    cover edge/error cases, and don't rely solely on mock/spy call-counts.
+
+    LINT GUARDRAIL POLICY (flag as High severity):
+    - Any new suppression directive (eslint-disable, ts-ignore, #[allow(...)],
+      noqa, type: ignore) — the underlying issue must be fixed, not silenced.
+    - Any rule severity downgrade (error→warn, error→off, deny→allow).
+    - Any increase to a complexity/size threshold (max-lines, max-params,
+      cognitive-complexity, too-many-lines, etc.).
+    - Any addition to ignore/exclude blocks that hides source from linting.
+
+# ---- Tools ----
+# Enable linting tools that run alongside CodeRabbit's LLM review.
+tools:
+  # --- Rust ---
+  # clippy:
+  #   enabled: true
+
+  # --- TypeScript / JavaScript ---
+  # eslint:
+  #   enabled: true
+  # biome:
+  #   enabled: true
+
+  # --- Python ---
+  # ruff:
+  #   enabled: true
+  # mypy:
+  #   enabled: true
+
+# ---- Path filters (optional) ----
+# Ignore generated/vendored code from review.
+# path_filters:
+#   - "!**/generated/**"
+#   - "!**/vendor/**"
+#   - "!**/dist/**"
+#   - "!**/target/**"

@@ -19,6 +19,7 @@ issue so the work and the rationale stay visible.
 | **Planning system** (language-parameterized) | `planning/templates/{language}/` | Available — see #3 |
 | **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Available — see #4 |
 | **Bun & Deno templates** | `project-setup/{bun,deno}/` | Available — see #9 |
+| **Review configs** (OCR + CodeRabbit) | `review-configs/` | Available — see #10 |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
 `MOCKING_STRATEGY.md`) are retained as source material and will be folded into the
@@ -100,6 +101,38 @@ project-setup/setup.sh <language> .          # rust | typescript | bun | deno | 
 
 See [`project-setup/README.md`](project-setup/README.md) for full details,
 including the rule-by-rule rationale for how conflicts were resolved.
+
+## Review configs
+
+Portable templates for automated code review tools live at
+[`review-configs/`](review-configs/). Both enforce the same senior-engineer
+rubric (correctness → contract → edge cases → type safety → security →
+maintainability) and the same lint-guardrail policy (no suppression directives,
+no severity downgrades, no threshold increases).
+
+**What's included:**
+
+- [`review-configs/ocr/`](review-configs/ocr/) — [OpenCodeReview](https://www.npmjs.com/package/@alibaba-group/open-code-review)
+  templates: review rubric (`rule.json`), language-specific test includes,
+  fork-safe language-configurable CI workflow (`ocr-review.yml`), plan-review
+  prompt, and an agent command definition.
+- [`review-configs/coderabbit/`](review-configs/coderabbit/) —
+  [CodeRabbit](https://coderabbit.ai) `.coderabbit.yaml` template with
+  assertive profile and lint-guardrail enforcement.
+
+**Quick start:**
+
+```sh
+# OCR: install the global rule + add the CI workflow
+mkdir -p ~/.opencodereview
+cp review-configs/ocr/rule.json ~/.opencodereview/rule.json
+cp review-configs/ocr/ocr-review.yml your-project/.github/workflows/ocr-review.yml
+
+# CodeRabbit: drop in the config
+cp review-configs/coderabbit/.coderabbit.yaml your-project/.coderabbit.yaml
+```
+
+See [`review-configs/README.md`](review-configs/README.md) for full details.
 
 ## License
 

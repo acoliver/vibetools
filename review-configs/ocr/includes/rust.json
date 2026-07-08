@@ -1,0 +1,13 @@
+{
+  "include": [
+    "**/*_test.rs",
+    "**/*_tests.rs",
+    "**/tests/**",
+    "**/test/**"
+  ],
+  "exclude": [
+    "**/target/**",
+    "**/vendor/**",
+    "**/generated/**"
+  ]
+}

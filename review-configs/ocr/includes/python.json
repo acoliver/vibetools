@@ -1,0 +1,15 @@
+{
+  "include": [
+    "**/test/**/*_test.py",
+    "**/tests/**/*_test.py",
+    "**/*_test.py",
+    "**/tests/**/test_*.py",
+    "**/test/test_*.py"
+  ],
+  "exclude": [
+    "**/.venv/**",
+    "**/__pycache__/**",
+    "**/generated/**",
+    "**/build/**"
+  ]
+}

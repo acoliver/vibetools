@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "path": "**/*",
+      "merge_system_rule": true,
+      "rule": "Perform a thorough, senior-engineer review. Prioritize, in order: (1) Correctness/logic bugs — trace control flow, off-by-one, inverted conditions, wrong operator, state/race conditions, resource leaks, missing error/exception handling paths (including async rejections and promises whose catch does not cover synchronous throws in arguments). (2) Contract/intent mismatches — where the code's behavior contradicts its comments, names, or documented intent. (3) Edge cases & boundary conditions — empty/null/undefined/None, negative numbers, very large inputs, concurrent/early-init scenarios. (4) Type safety — avoid erasing discriminated unions to Record<string,unknown> or any; avoid Any in Python; prefer Result/Option in Rust; prefer narrowing in TypeScript. (5) Security — injection, unvalidated input, secrets. (6) Maintainability — dead/unreachable code, duplication, non-idiomatic patterns. For test files specifically: scrutinize whether assertions test behavior vs. implementation details (mock/spy call-counts are weak), coverage of edge/error cases, and missing scenarios. Always report each finding with the exact file path and line range, a concrete root-cause explanation, and a minimal fix. Do not speculate without grounding in the shown code. Additionally, enforce lint/complexity policy invariance and treat any weakening of static-analysis guardrails as High priority: (a) new suppression directives anywhere — eslint-disable / eslint-disable-next-line / eslint-disable-line / eslint-enable, file-level /* eslint-disable */, TypeScript @ts-ignore / @ts-expect-error / @ts-nocheck, Rust #[allow(...)] / #![allow(...)] / cfg_attr(..., allow(...)), Python noqa / type: ignore / # pylint: disable; (b) any ESLint/clippy/ruff rule severity downgrade (error->warn or error->off) or a new 'off'/'allow' entry; (c) any INCREASE to a complexity/size threshold (complexity, max-lines, max-lines-per-function, max-statements, max-params, max-depth, sonarjs/cognitive-complexity, clippy cognitive-complexity-threshold, too-many-lines-threshold, too-many-arguments-threshold, ruff max-complexity/max-args/max-statements, or a 'max:' object option); (d) additions to .eslintignore, .gitignore excluding source, or a config 'ignores:'/'exclude' block that excludes source from linting. For each, require that the underlying issue be fixed rather than silenced or loosened."
+    }
+  ],
+  "include": [
+    "**/*.test.{js,jsx,mjs,cjs,ts,tsx}",
+    "**/*.spec.{js,jsx,mjs,cjs,ts,tsx}",
+    "**/__tests__/**",
+    "**/tests/**",
+    "**/test/**",
+    "**/*_test.go",
+    "**/*Test.java",
+    "**/*Tests.java",
+    "**/*_test.rs",
+    "**/*_tests.rs",
+    "**/src/test/java/**/*.java",
+    "**/src/test/**/*.kt",
+    "**/test/**/*_test.py",
+    "**/tests/**/*_test.py",
+    "**/*_test.py",
+    "**/*_spec.rb",
+    "**/spec/**/*_spec.rb"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/target/**",
+    "**/*.min.js",
+    "**/generated/**",
+    "**/vendor/**",
+    "**/.venv/**",
+    "**/__pycache__/**"
+  ]
+}
