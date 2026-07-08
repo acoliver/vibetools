@@ -1,0 +1,14 @@
+# Bun configuration — test runner + resolver settings.
+# Docs: https://bun.sh/docs/runtime/bunfig
+
+[test]
+# Run tests from src/ and tests/ by default.
+root = "."
+preload = []
+coverage = true
+coverageThreshold = 0.8
+coverageReporter = ["text", "lcov"]
+
+# Example resolver override (uncomment to remap a dependency):
+# [install.scopes]
+# "@my-org" = "https://npm.pkg.github.com"

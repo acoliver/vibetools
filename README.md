@@ -18,6 +18,7 @@ issue so the work and the rationale stay visible.
 | **Writing styleguide** | `docs/writing/styleguide.md` | Available — see #2 |
 | **Planning system** (language-parameterized) | `planning/templates/{language}/` | Available — see #3 |
 | **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Available — see #4 |
+| **Bun & Deno templates** | `project-setup/{bun,deno}/` | Available — see #9 |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
 `MOCKING_STRATEGY.md`) are retained as source material and will be folded into the
@@ -82,7 +83,11 @@ disagreed.
 - [`project-setup/rust/`](project-setup/rust/) — clippy + rustfmt + Cargo lint
   policy, merged from jefe, luther, and personal-agent (strictest of each).
 - [`project-setup/typescript/`](project-setup/typescript/) — ESLint flat config,
-  tsconfig, Prettier, distilled from a mature production codebase.
+  tsconfig, Prettier, distilled from a mature production codebase (Node 24+).
+- [`project-setup/bun/`](project-setup/bun/) — Biome (replaces ESLint+Prettier),
+  bunfig.toml, tsconfig for Bun. Single-toolchain, 10-50x faster.
+- [`project-setup/deno/`](project-setup/deno/) — Deno built-in lint/fmt/check/test.
+  Zero external dependencies — everything ships with the Deno runtime.
 - [`project-setup/python/`](project-setup/python/) — ruff + mypy + pytest +
   coverage config, distilled from a production Python codebase.
 
@@ -90,7 +95,7 @@ Each language has an `init.sh` installer, and a universal launcher ties them
 together. To set up linting/complexity for a new project, run:
 
 ```sh
-project-setup/setup.sh <language> .          # rust | typescript | python
+project-setup/setup.sh <language> .          # rust | typescript | bun | deno | python
 ```
 
 See [`project-setup/README.md`](project-setup/README.md) for full details,

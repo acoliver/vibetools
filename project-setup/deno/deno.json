@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "lib": ["deno.window"]
+  },
+  "lint": {
+    "include": ["src/", "scripts/"],
+    "exclude": ["dist/", "node_modules/", "testdata/"],
+    "rules": {
+      "tags": ["recommended"],
+      "include": [
+        "ban-untagged-todo",
+        "no-await-in-loop",
+        "no-external-import",
+        "no-sloppy-equality",
+        "prefer-ascii",
+        "no-node-globals"
+      ]
+    }
+  },
+  "fmt": {
+    "include": ["src/", "scripts/"],
+    "exclude": ["dist/", "node_modules/", "testdata/"],
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true,
+    "proseWrap": "preserve"
+  },
+  "test": {
+    "include": ["src/"],
+    "exclude": ["testdata/", "fixtures/"]
+  },
+  "tasks": {
+    "lint": "deno lint",
+    "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
+    "check": "deno check src/",
+    "test": "deno test --allow-all",
+    "test:coverage": "deno test --allow-all --coverage=coverage",
+    "ci": "deno fmt --check && deno lint && deno check src/ && deno test --allow-all"
+  },
+  "exclude": ["dist/", "node_modules/", "coverage/"],
+  "imports": {}
+}
