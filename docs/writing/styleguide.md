@@ -1,10 +1,9 @@
 # Writing Styleguide
 
-> Coalesced from writing styleguides across several projects (Infoworld, Gable/BCBS
-> knowledge center, Capital One evaluation package) and intentionally stripped of
-> all domain-, client-, and publication-specific content. What remains is a
-> general-purpose styleguide for clear, credible, professional writing — usable by
-> humans or AI agents for any non-fiction prose project.
+> Coalesced from writing styleguides across several projects and intentionally
+> stripped of all domain-, client-, and publication-specific content. What remains
+> is a general-purpose styleguide for clear, credible, professional writing —
+> usable by humans or AI agents for any non-fiction prose project.
 
 ## Voice and tone
 
@@ -32,8 +31,8 @@ author understands their world? If not, cut it.
 Do not write "That's not X, that's Y" or "X isn't about Y. It's about Z." This is a
 crutch. State what the thing is. The reader can figure out what it isn't.
 
-**No:** "This isn't a data problem. It's a governance problem."
-**Yes:** "The OCC cited deficiencies in data governance, not data infrastructure."
+**No:** "This isn't a tooling problem. It's a culture problem."
+**Yes:** "The postmortem identified three process gaps, none of which were caused by the toolchain."
 
 ### Em dashes
 
@@ -47,7 +46,7 @@ Do not end a paragraph with a short punchy sentence that exists only to sound co
 or land a blow. If the paragraph made the point, stop. Trust it.
 
 **No:** "The demo skips the hard parts."
-**No:** "And regulators notice."
+**No:** "And it shows."
 **Yes:** Just end after the substance.
 
 ### Breathless escalation
@@ -71,17 +70,13 @@ point you're making.
 
 ### Overselling the stakes
 
-Match the rhetoric to the subject. A calorie-counting app does not need FedRAMP.
-Scale the language to the actual example.
+Match the rhetoric to the subject. A calorie-counting app does not need
+zero-downtime rolling deploys. Scale the language to the actual example.
 
 ### Staccato sentence fragments
 
 Do not write sequences of short subject-verb fragments to create dramatic rhythm.
 This is a music video montage, not prose. Combine into a sentence, or pick one.
-
-**No:** "Markets panicked. Analysts scrambled. CEOs hedged."
-**Yes:** "Markets panicked, analysts scrambled to explain why, and CEOs hedged their
-earnings calls."
 
 ### Hypothetical sass
 
@@ -103,17 +98,16 @@ exists and what to do with it.
 
 **No:**
 
-- Data quality dashboards
-- Three lines of defense coordination
-- SLAs across data domains
-- Issue remediation management
+- Deployment frequency
+- Lead time for changes
+- Mean time to recovery
+- Change failure rate
 
 **Yes:**
 
-Most of this coordination happens through data quality dashboards shared across
-the three lines of defense, supported by SLAs that define remediation timelines for
-each data domain. When those SLAs exist, issue management becomes trackable. When
-they don't, remediation drifts.
+The team tracks four DORA metrics, but the one that actually drove improvement was
+change failure rate. When that number dropped from 30% to 8%, the weekly rollback
+meetings disappeared, and deployment frequency rose on its own.
 
 ### Formulaic section headers
 
@@ -133,8 +127,8 @@ what makes it trustworthy.
 
 ### Let facts carry weight
 
-A strong fact doesn't need a strong sentence around it. "Only 2 of 31 assessed
-G-SIBs were rated fully compliant." That's enough. Don't add "let that sink in" or
+A strong fact doesn't need a strong sentence around it. "Only 3 of 12 services
+survived the chaos engineering run." That's enough. Don't add "let that sink in" or
 "the implications are staggering."
 
 ### Use short sentences after complex ones
@@ -193,8 +187,8 @@ it" is credible. Credibility is the product.
 Always attribute with the person's name, title, and where they said it. Inline link
 to the original source. For PDFs, include page number.
 
-**Example:** The ECB requires "comprehensive data lineage" at "data attribute level"
-([ECB RDARR Guide](https://example.com), p. 16).
+**Example:** The RFC proposes "lazy reconciliation on read" as the default conflict
+resolution strategy ([RFC 47](https://example.com), §3.2).
 
 ### Claims and data points
 
@@ -206,10 +200,11 @@ source. If you can't find a source, flag it rather than asserting it.
 If you're extending or interpreting what someone said, make clear which words are
 theirs and which are yours. Don't blend your editorializing into their quote.
 
-**No:** Aujla said his customers aren't going to vibe code their tax returns.
-**Yes:** Aujla [told Fortune](https://example.com) his customers "are running
-bakeries" and "are not looking to sit at home and vibe code." Tax returns filed
-wrong carry legal consequences whether a human or an AI prepared them.
+**No:** The CTO said they're moving away from microservices.
+**Yes:** The CTO [told The Register](https://example.com) the team is "collapsing
+12 services into 3" because "the operational overhead ate all our velocity." The
+trade-off is fewer deployment boundaries, which means larger blast radius per
+failure.
 
 ### Use primary sources
 
@@ -234,8 +229,8 @@ bottom (though a bottom list is fine too).
 ### Vocabulary consistency
 
 Once you establish vocabulary terms for a project, use them consistently. Don't
-drift between synonyms. If you call something "ingress" on page 1, don't call it
-"source" on page 5. When you catch yourself reaching for a different word, ask
+drift between synonyms. If you call something "worker" on page 1, don't call it
+"agent" on page 5. When you catch yourself reaching for a different word, ask
 whether it's actually a different concept — if not, use the established term.
 
 ## Review gate
