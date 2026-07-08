@@ -112,3 +112,14 @@ echo "==> Done. Next steps:"
 echo "    1. If your Cargo.toml uses an edition other than 2021, update 'edition' in .rustfmt.toml to match."
 echo "    2. Run: cargo clippy --all-targets -- -D warnings"
 echo "    3. Run: cargo fmt --check"
+
+# --- Optionally copy CI gate ---
+CI_SRC="$(cd "$SCRIPT_DIR/../.." && pwd)/ci-gates/rust/ci.yml"
+CI_DEST="$TARGET/.github/workflows/ci.yml"
+if [[ -f "$CI_SRC" ]] && [[ ! -e "$CI_DEST" ]]; then
+  mkdir -p "$TARGET/.github/workflows"
+  cp "$CI_SRC" "$CI_DEST"
+  echo "    copied CI gate to .github/workflows/ci.yml"
+elif [[ -e "$CI_DEST" ]]; then
+  echo "    (CI gate already exists at .github/workflows/ci.yml — skipped)"
+fi

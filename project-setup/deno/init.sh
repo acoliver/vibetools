@@ -59,3 +59,14 @@ echo "    1. Add dependencies with: deno add <pkg>"
 echo "       (or add them to the \"imports\" map in deno.json)"
 echo "    2. Run: deno task ci"
 echo "       (runs fmt --check + lint + check + test)"
+
+# --- Optionally copy CI gate ---
+CI_SRC="$(cd "$SCRIPT_DIR/../.." && pwd)/ci-gates/deno/ci.yml"
+CI_DEST="$TARGET/.github/workflows/ci.yml"
+if [[ -f "$CI_SRC" ]] && [[ ! -e "$CI_DEST" ]]; then
+  mkdir -p "$TARGET/.github/workflows"
+  cp "$CI_SRC" "$CI_DEST"
+  echo "    copied CI gate to .github/workflows/ci.yml"
+elif [[ -e "$CI_DEST" ]]; then
+  echo "    (CI gate already exists at .github/workflows/ci.yml — skipped)"
+fi

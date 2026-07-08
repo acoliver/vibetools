@@ -76,3 +76,14 @@ echo "    2. Run: bun install"
 echo "    3. Run: bunx biome check ."
 echo "    4. Run: bunx tsc --noEmit"
 echo "    5. Run: bun test"
+
+# --- Optionally copy CI gate ---
+CI_SRC="$(cd "$SCRIPT_DIR/../.." && pwd)/ci-gates/bun/ci.yml"
+CI_DEST="$TARGET/.github/workflows/ci.yml"
+if [[ -f "$CI_SRC" ]] && [[ ! -e "$CI_DEST" ]]; then
+  mkdir -p "$TARGET/.github/workflows"
+  cp "$CI_SRC" "$CI_DEST"
+  echo "    copied CI gate to .github/workflows/ci.yml"
+elif [[ -e "$CI_DEST" ]]; then
+  echo "    (CI gate already exists at .github/workflows/ci.yml — skipped)"
+fi

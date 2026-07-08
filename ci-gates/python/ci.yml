@@ -1,0 +1,43 @@
+# CI quality gate — Python (uv + ruff + mypy + pytest).
+#
+# Copy to .github/workflows/ci.yml. Simplified from aesop's multi-job gate
+# to a single sequential job (~55 lines).
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint + Format + Typecheck + Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - run: uv sync --frozen --dev
+
+      - name: Lint (ruff)
+        run: uv run ruff check .
+
+      - name: Format check (ruff)
+        run: uv run ruff format --check .
+
+      - name: Typecheck (mypy --strict)
+        run: uv run mypy --strict src/
+
+      - name: Test with coverage
+        run: uv run pytest --cov --cov-branch --cov-fail-under=80 -q

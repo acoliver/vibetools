@@ -20,6 +20,7 @@ issue so the work and the rationale stay visible.
 | **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Available — see #4 |
 | **Bun & Deno templates** | `project-setup/{bun,deno}/` | Available — see #9 |
 | **Review configs** (OCR + CodeRabbit) | `review-configs/` | Available — see #10 |
+| **CI quality gates** | `ci-gates/{language}/` | Available — see #11 |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
 `MOCKING_STRATEGY.md`) are retained as source material and will be folded into the
@@ -133,6 +134,33 @@ cp review-configs/coderabbit/.coderabbit.yaml your-project/.coderabbit.yaml
 ```
 
 See [`review-configs/README.md`](review-configs/README.md) for full details.
+
+## CI gates
+
+Radically simplified, language-specific GitHub Actions CI workflows live at
+[`ci-gates/`](ci-gates/). Each is a single sequential job — lint → format
+check → typecheck → test (with coverage) → build — with concurrency control
+and caching. All are 40–47 lines, stripped from 400+ line source workflows.
+
+**What's included:**
+
+| Language | Steps |
+| --- | --- |
+| [`ci-gates/typescript/`](ci-gates/typescript/ci.yml) | ESLint (--max-warnings 0), Prettier check, tsc, Vitest --coverage, build |
+| [`ci-gates/rust/`](ci-gates/rust/ci.yml) | cargo fmt --check, clippy -D warnings, build --locked, test --locked |
+| [`ci-gates/python/`](ci-gates/python/ci.yml) | ruff check, ruff format --check, mypy --strict, pytest --coverage |
+| [`ci-gates/bun/`](ci-gates/bun/ci.yml) | Biome check, tsc --noEmit, bun test --coverage |
+| [`ci-gates/deno/`](ci-gates/deno/ci.yml) | deno fmt --check, deno lint, deno check, deno test --coverage |
+
+**Quick start:**
+
+```sh
+cp ci-gates/<language>/ci.yml your-project/.github/workflows/ci.yml
+```
+
+The `project-setup/<language>/init.sh` scripts also optionally copy the CI
+gate alongside the lint config — so a single `setup.sh` run bootstraps both.
+See [`ci-gates/README.md`](ci-gates/README.md) for full details.
 
 ## License
 
