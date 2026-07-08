@@ -15,7 +15,7 @@ issue so the work and the rationale stay visible.
 
 | Area | Location | Status / Tracking |
 | --- | --- | --- |
-| **Writing styleguide** | `docs/writing/styleguide.md` | Planned — see #2 |
+| **Writing styleguide** | `docs/writing/styleguide.md` | Available — see #2 |
 | **Planning system** (language-parameterized) | `planning/templates/{language}/` | Planned — see #3 |
 | **Project setup** (lint/complexity/configs) | `project-setup/{language}/` | Planned — see #4 |
 
@@ -34,6 +34,13 @@ two-step pattern you can hand to an agent:
    `project-setup/<language>/` (a setup script fills in project-specific names).
 
 Each area has its own README with exact usage once it's built out.
+
+## Writing
+
+A general-purpose writing styleguide lives at [`docs/writing/styleguide.md`](docs/writing/styleguide.md).
+It was coalesced from project-specific styleguides and stripped of all domain,
+client, and publication specifics so it applies to any non-fiction prose project.
+Point a writer or agent at this file as the canonical writing styleguide.
 
 > Note: this README describes the intended end state. The sections above are filled
 > in as their tracking issues (#2, #3, #4) land. Anything that used to live here
