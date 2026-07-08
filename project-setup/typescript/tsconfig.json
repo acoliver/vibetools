@@ -17,9 +17,11 @@
     "sourceMap": true,
     "incremental": true,
     "declaration": true,
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
     "allowSyntheticDefaultImports": true,
     "lib": ["ES2023"],
-    "module": "NodeNext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "target": "es2022"
   },

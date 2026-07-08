@@ -40,22 +40,27 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-LANG_NAME="$1"
+LANG_SEL="$1"
 shift
 
-# Reject path separators / traversal attempts to prevent exec of scripts
-# outside the intended language directories.
-if [[ "$LANG_NAME" == */* || "$LANG_NAME" == *..* ]]; then
-  echo "Error: invalid language name '$LANG_NAME' (must not contain '/' or '..')" >&2
+# Reject empty names, path separators, and traversal attempts.
+if [[ -z "$LANG_SEL" || "$LANG_SEL" == */* || "$LANG_SEL" == *..* ]]; then
+  echo "Error: invalid language name '$LANG_SEL'" >&2
+  echo "Must not be empty, contain '/', or contain '..'" >&2
   exit 1
 fi
 
-LANG_DIR="$SCRIPT_DIR/$LANG_NAME"
+LANG_DIR="$SCRIPT_DIR/$LANG_SEL"
 
 if [[ ! -d "$LANG_DIR" ]] || [[ ! -f "$LANG_DIR/init.sh" ]]; then
-  echo "Error: unknown language '$LANG_NAME'" >&2
+  echo "Error: unknown language '$LANG_SEL'" >&2
   echo "Available languages:"
   list_languages >&2
+  exit 1
+fi
+
+if [[ ! -x "$LANG_DIR/init.sh" ]]; then
+  echo "Error: $LANG_SEL/init.sh is not executable." >&2
   exit 1
 fi
 

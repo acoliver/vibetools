@@ -55,7 +55,7 @@ export default tseslint.config(
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
-        // import.meta.dirname requires Node.js >= 20.11; fall back to cwd.
+        // import.meta.dirname returns undefined on Node < 20.11; fall back to cwd.
         tsconfigRootDir: import.meta.dirname ?? process.cwd(),
       },
       globals: {
@@ -191,12 +191,15 @@ export default tseslint.config(
   },
 
   // ── Script files: allow CommonJS globals ───────────────────────────────
+  // .cjs files are excluded — they use CommonJS semantics (require/module.exports),
+  // not ES module sourceType. If you have .cjs scripts, add a separate block with
+  // sourceType: 'commonjs'.
   {
-      files: ['scripts/**/*.{js,mjs,cjs}', '*.config.{js,mjs}'],
-      languageOptions: {
-        sourceType: 'module',
-        globals: { ...globals.node, process: 'readonly', console: 'readonly' },
-      },
+    files: ['scripts/**/*.{js,mjs}', '*.config.{js,mjs}'],
+    languageOptions: {
+      sourceType: 'module',
+      globals: { ...globals.node, process: 'readonly', console: 'readonly' },
+    },
     rules: {
       // Use base ESLint rule for plain JS files (the TS parser/plugins are
       // not configured for this block).

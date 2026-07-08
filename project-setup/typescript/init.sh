@@ -9,8 +9,9 @@
 #
 set -euo pipefail
 
+FINISHED_OK=0
 warn_partial() {
-  if [[ $? -ne 0 ]]; then
+  if [[ $FINISHED_OK -eq 0 ]]; then
     echo "Error during setup — partial state may remain in target." >&2
   fi
 }
@@ -20,6 +21,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-.}"
 
 if [[ ! -d "$TARGET" ]]; then
+  FINISHED_OK=1
   echo "Error: target directory '$TARGET' does not exist." >&2
   exit 1
 fi
@@ -61,14 +63,12 @@ JSONEOF
   echo "    created package.json"
 fi
 
-trap - EXIT
+FINISHED_OK=1
 echo ""
 echo "==> Done. Next steps:"
 echo "    1. Merge devDependencies + scripts from:"
 echo "       $SCRIPT_DIR/package.devdeps.json"
-echo "       (e.g. npm install -D eslint typescript-eslint eslint-config-prettier \\"
-echo "           eslint-plugin-import eslint-plugin-sonarjs eslint-plugin-eslint-comments \\"
-echo "           globals prettier typescript)"
+echo "       into your package.json, then run: npm install"
 echo "    2. For React projects, also install eslint-plugin-react \\"
 echo "       eslint-plugin-react-hooks and uncomment the React block in eslint.config.js."
 echo "    3. For Vitest, install @vitest/eslint-plugin and uncomment the Vitest lines."

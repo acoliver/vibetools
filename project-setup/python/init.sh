@@ -31,9 +31,9 @@ fi
 echo "==> Installing Python project-setup into: $TARGET"
 echo "    Package name: $PACKAGE"
 
-# Escape sed metacharacters (&, /, \) so the package name substitutes safely.
+# Escape sed metacharacters for the '|' delimiter used in render_template.
 escape_pkg() {
-  printf '%s\n' "$PACKAGE" | sed 's/[&/\\]/\\&/g'
+  printf '%s\n' "$PACKAGE" | sed 's/[&|\\]/\\&/g'
 }
 ESCAPED_PKG="$(escape_pkg)"
 

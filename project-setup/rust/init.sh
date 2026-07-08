@@ -41,17 +41,24 @@ for f in clippy.toml .rustfmt.toml; do
 done
 
 mkdir -p "$TARGET/.cargo"
-backup_if_exists "$TARGET/.cargo/config.toml"
-cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
-echo "    copied .cargo/config.toml"
+if [[ -f "$TARGET/.cargo/config.toml" ]]; then
+  backup_if_exists "$TARGET/.cargo/config.toml"
+  cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
+  echo "    copied .cargo/config.toml (existing file was backed up — review the .bak for custom settings to restore)"
+else
+  cp "$SCRIPT_DIR/.cargo/config.toml" "$TARGET/.cargo/config.toml"
+  echo "    copied .cargo/config.toml"
+fi
 
 # --- Merge [lints] sections into Cargo.toml ---
-# Only the [lints.rust] and [lints.clippy] tables are appended. Profile
-# settings live in .cargo/config.toml (global), so there is no risk of
-# duplicate [profile.*] tables.
 CARGO="$TARGET/Cargo.toml"
 # Extract from [lints.rust] through the end of all [lints.*] sections.
 LINT_BODY="$(awk '/^\[lints\./{found=1} found && /^\[/ && !/^\[lints\./{found=0} found{print}' "$SCRIPT_DIR/lints.snippet.toml")"
+
+if [[ -z "$LINT_BODY" ]] || ! grep -q '^\[lints\.' <<<"$LINT_BODY"; then
+  echo "Error: failed to extract [lints.*] sections from lints.snippet.toml." >&2
+  exit 1
+fi
 
 if [[ ! -f "$CARGO" ]]; then
   echo "    No Cargo.toml found — creating a minimal template."
@@ -84,6 +91,6 @@ fi
 
 echo ""
 echo "==> Done. Next steps:"
-echo "    1. Set 'edition' in .rustfmt.toml to match your Cargo.toml."
+echo "    1. If your Cargo.toml uses an edition other than 2021, update 'edition' in .rustfmt.toml to match."
 echo "    2. Run: cargo clippy --all-targets -- -D warnings"
 echo "    3. Run: cargo fmt --check"
