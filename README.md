@@ -21,6 +21,7 @@ issue so the work and the rationale stay visible.
 | **Bun & Deno templates** | `project-setup/{bun,deno}/` | Available — see #9 |
 | **Review configs** (OCR + CodeRabbit) | `review-configs/` | Available — see #10 |
 | **CI quality gates** | `ci-gates/{language}/` | Available — see #11 |
+| **Agent skills** | `skills/` | Available — see #15 |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
 `MOCKING_STRATEGY.md`) are retained as source material and will be folded into the
@@ -161,6 +162,32 @@ cp ci-gates/<language>/ci.yml your-project/.github/workflows/ci.yml
 The `project-setup/<language>/init.sh` scripts also optionally copy the CI
 gate alongside the lint config — so a single `setup.sh` run bootstraps both.
 See [`ci-gates/README.md`](ci-gates/README.md) for full details.
+
+## Skills
+
+Portable agent skills (LLxprt Code / Gemini CLI `SKILL.md` format) live at
+[`skills/`](skills/). Each skill codifies a review or quality workflow as an
+activatable agent capability.
+
+**What's included:**
+
+- [`skills/open-code-review/`](skills/open-code-review/SKILL.md) — runs
+  OpenCodeReview (ocr) in the background, classifies findings by severity
+  (High/Medium/Low), and applies fixes. References `review-configs/ocr/` as
+  installation prerequisites.
+
+**Quick start:**
+
+```sh
+# Install all skills to ~/.llxprt/skills/ (user-global)
+skills/install.sh
+
+# Or install to a specific project
+skills/install.sh /path/to/project
+```
+
+See [`skills/README.md`](skills/README.md) for the skill format, discovery
+paths, and installation details.
 
 ## License
 
