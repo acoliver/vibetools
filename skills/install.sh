@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 #
-# Installs all skills from this directory into ~/.llxprt/skills/ (user-global)
-# or a target directory. Each skill is a subdirectory containing a SKILL.md.
+# Installs all skills from this directory into the platform-specific user
+# skills directory, or a target project. Each skill is a subdirectory
+# containing a SKILL.md.
+#
+# Modern llxprt-code uses platform-specific paths (via envPaths):
+#   macOS:   ~/Library/Preferences/llxprt-code/skills/
+#   Linux:   ~/.config/llxprt-code/skills/
+#   Windows: %APPDATA%\llxprt-code\Config\skills\
+#
+# Override with $LLXPRT_CONFIG_HOME. The legacy ~/.llxprt/skills/ path is
+# deprecated but still works as a fallback.
 #
 # Usage:
-#   skills/install.sh                    # install to ~/.llxprt/skills/
-#   skills/install.sh /path/to/project   # install to /path/to/project/.llxprt/skills/
+#   skills/install.sh                    # install to user skills dir
+#   skills/install.sh /path/to/project   # install to project's .llxprt/skills/
 #
 set -euo pipefail
 
@@ -16,11 +25,39 @@ trap 'if [ "$FINISHED_OK" -ne 1 ]; then
   echo "ERROR: install.sh failed unexpectedly." >&2
 fi' EXIT
 
+# Resolve the platform-specific config directory for user skills.
+resolve_user_skills_dir() {
+  # Honor LLXPRT_CONFIG_HOME override (highest priority, matches llxprt-code).
+  if [ -n "${LLXPRT_CONFIG_HOME:-}" ]; then
+    echo "$LLXPRT_CONFIG_HOME/skills"
+    return
+  fi
+
+  local os_name
+  os_name="$(uname -s)"
+  case "$os_name" in
+    Darwin)
+      echo "$HOME/Library/Preferences/llxprt-code/skills"
+      ;;
+    Linux)
+      # Respect XDG_CONFIG_HOME if set.
+      echo "${XDG_CONFIG_HOME:-$HOME/.config}/llxprt-code/skills"
+      ;;
+    MINGW*|MSYS*|CYGWIN*)
+      echo "$APPDATA/llxprt-code/Config/skills"
+      ;;
+    *)
+      # Fallback to legacy path.
+      echo "$HOME/.llxprt/skills"
+      ;;
+  esac
+}
+
 # Resolve target directory
 if [ "$#" -ge 1 ]; then
   TARGET_BASE="$1/.llxprt/skills"
 else
-  TARGET_BASE="$HOME/.llxprt/skills"
+  TARGET_BASE="$(resolve_user_skills_dir)"
 fi
 
 mkdir -p "$TARGET_BASE"
