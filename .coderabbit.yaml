@@ -1,0 +1,41 @@
+# CodeRabbit configuration for the vibetools repo.
+#
+# This repo is a shared playbook of documentation, templates, and config files
+# (YAML, shell scripts, markdown). There is no compiled code, so no tool
+# integrations are enabled. Review focuses on:
+# - YAML/shell correctness (syntax, quoting, indentation)
+# - Template accuracy (do configs match what they claim to do?)
+# - Documentation quality (are instructions clear and complete?)
+# - Cross-references (do links and file paths resolve?)
+#
+# Uses the same rubric as the template at review-configs/coderabbit/.coderabbit.yaml.
+
+reviews:
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+
+  profile: assertive
+
+  instructions: |
+    This is a documentation and configuration repo — YAML workflows, shell
+    scripts (init.sh), and markdown templates. No compiled language code.
+
+    Review as a senior engineer. Prioritize, in order:
+    1. Correctness — YAML syntax, shell quoting/expansion, logic bugs in scripts.
+    2. Contract mismatch — does the file do what its name/docstring claims?
+    3. Consistency — do templates follow the same patterns (init.sh robustness,
+       backup-if-exists, FINISHED_OK trap, idempotency)?
+    4. Security — shell injection, path traversal, secrets in templates.
+    5. Documentation quality — are instructions clear, complete, and accurate?
+
+    For shell scripts: check set -euo pipefail, error handling on cp/mkdir,
+    idempotency, and that FINISHED_OK is set after all critical operations.
+
+    LINT GUARDRAIL POLICY (flag as High severity):
+    - Any suppression directive added to a lint config template (eslint-disable,
+      ts-ignore, #[allow(...)], noqa) — templates must be suppression-free.
+    - Any rule severity downgrade or threshold increase in any config template.
+    - Any addition to ignore/exclude blocks that hides source from linting.
