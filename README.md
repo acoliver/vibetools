@@ -175,11 +175,15 @@ activatable agent capability.
   OpenCodeReview (ocr) in the background, classifies findings by severity
   (High/Medium/Low), and applies fixes. References `review-configs/ocr/` as
   installation prerequisites.
+- [`skills/coderabbit-review/`](skills/coderabbit-review/SKILL.md) — runs
+  the CodeRabbit CLI locally with `--agent` structured findings, classifies
+  by severity, and supports autonomous implement-review-fix cycles.
+  References `review-configs/coderabbit/` as the config source.
 
 **Quick start:**
 
 ```sh
-# Install all skills to ~/.llxprt/skills/ (user-global)
+# Install all skills to the platform-specific user skills dir
 skills/install.sh
 
 # Or install to a specific project

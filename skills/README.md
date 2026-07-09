@@ -10,6 +10,7 @@ instructions.
 | Skill | What it does |
 | --- | --- |
 | `open-code-review` | Runs OpenCodeReview (ocr) in the background, classifies findings by severity (High/Medium/Low), and applies fixes. |
+| `coderabbit-review` | Runs the CodeRabbit CLI locally, classifies findings by severity (High/Medium/Low), and applies fixes. Supports autonomous implement-review-fix cycles. |
 
 ## Skill format
 
@@ -41,13 +42,13 @@ set the agent receives when the skill is activated.
 
 ### Option A — Convenience installer
 
-Install all skills into `~/.llxprt/skills/` (user-global):
+Install all skills into the platform-specific user skills directory:
 
 ```sh
 skills/install.sh
 ```
 
-Install into a specific project or directory:
+Install into a specific project (`.llxprt/skills/`):
 
 ```sh
 skills/install.sh /path/to/project
@@ -58,10 +59,13 @@ skills/install.sh /path/to/project
 Copy a skill directory into the appropriate skills location:
 
 ```sh
-# User-global (available in all projects)
-cp -r skills/open-code-review ~/.llxprt/skills/
+# User-global (platform-specific config dir):
+#   macOS:   ~/Library/Preferences/llxprt-code/skills/
+#   Linux:   ~/.config/llxprt-code/skills/
+#   Windows: %APPDATA%\llxprt-code\Config\skills\
+cp -r skills/open-code-review ~/Library/Preferences/llxprt-code/skills/  # macOS
 
-# Project-local (shared via version control)
+# Project-local (shared via version control):
 cp -r skills/open-code-review your-project/.llxprt/skills/
 ```
 
@@ -72,11 +76,13 @@ precedence):
 
 1. Built-in skills (shipped with the CLI)
 2. Extension skills (bundled in extensions)
-3. User skills: `~/.llxprt/skills/` (or `~/.agents/skills/` alias)
-4. Workspace skills: `.llxprt/skills/` (or `.agents/skills/` alias)
+3. User skills: platform config dir (e.g. `~/Library/Preferences/llxprt-code/skills/`
+   on macOS). Override with `$LLXPRT_CONFIG_HOME`. The legacy `~/.llxprt/skills/`
+   path is deprecated but still works as a fallback. Also: `~/.agents/skills/`
+   alias (pending [vybestack/llxprt-code#2455](https://github.com/vybestack/llxprt-code/issues/2455)).
+4. Workspace skills: `.llxprt/skills/` (or `.agents/skills/` alias).
 
-Within the same tier, `.agents/skills/` takes precedence over
-`.llxprt/skills/`. See [vybestack/llxprt-code#2455](https://github.com/vybestack/llxprt-code/issues/2455).
+Within the same tier, `.agents/skills/` takes precedence over `.llxprt/skills/`.
 
 ## Related
 
