@@ -32,14 +32,19 @@ for skill_dir in "$SCRIPT_DIR"/*/; do
   skill_name="$(basename "$skill_dir")"
   dest="$TARGET_BASE/$skill_name"
 
-  # Backup existing skill
+  # Stage the new copy in a temp location first, then swap atomically.
+  # This avoids destroying the existing install if the copy fails.
+  staging="${dest}.new.$$"
+  cp -r "$skill_dir" "$staging"
+
+  # Backup existing skill, then swap the staged copy into place.
   if [ -d "$dest" ]; then
     backup="${dest}.bak.$(date +%Y%m%d%H%M%S).$$"
     echo "    WARNING: $skill_name already installed — backed up to $(basename "$backup")"
     mv "$dest" "$backup"
   fi
 
-  cp -r "$skill_dir" "$dest"
+  mv "$staging" "$dest"
   echo "    installed: $skill_name -> $dest"
   installed=$((installed + 1))
 done

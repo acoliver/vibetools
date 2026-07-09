@@ -34,7 +34,7 @@ overrides the global one.
 Always preview which files will be reviewed before running the full review:
 
 ```sh
-ocr review --preview --from main --to <branch>
+ocr review --preview --from <base> --to <head>
 ```
 
 Expect test files under "Will review". If a test file shows under
@@ -56,7 +56,7 @@ for very large reviews.
 
 ```sh
 nohup ocr review --audience agent --timeout 20 \
-  --from main --to <branch> > /tmp/ocr_review.log 2>&1 &
+  --from <base> --to <head> > /tmp/ocr_review.log 2>&1 &
 echo "PID=$!"
 ```
 
@@ -83,14 +83,15 @@ otherwise.
 
 ## Step 3 — Classify and report
 
-Group the review comments by priority. Silently discard low-confidence noise:
+Group the review comments by priority:
 
 - **High** — clear bugs, security issues, lint-guardrail violations, or precise,
   fixable suggestions.
 - **Medium** — reasonable but context-dependent; maintainability, DRY, missing
   edge-case handling; needs manual work.
-- **Low** (discard) — likely false positives, nitpicks, style, or comments
-  lacking enough context to be actionable.
+- **Low** — likely false positives, nitpicks, style, or comments lacking enough
+  context to be actionable; evaluate case by case rather than discarding
+  unconditionally.
 
 ## Step 4 — Fix (only if the user asked to)
 

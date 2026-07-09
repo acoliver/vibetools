@@ -15,7 +15,7 @@ instructions.
 
 Each skill lives in its own directory under `skills/`:
 
-```
+```text
 skills/
   <skill-name>/
     SKILL.md
