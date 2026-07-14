@@ -12,7 +12,8 @@ important coverage and period confounders.
 
 ## Start here
 
-- [`megareport.pdf`](megareport.pdf) — typeset publication.
+- [`megareport.pdf`](megareport.pdf) — typeset 26-page publication. If GitHub's
+  inline preview is truncated, use [Download raw PDF](https://raw.githubusercontent.com/acoliver/vibetools/main/research/ai-code-review-study/megareport.pdf).
 - [`megareport.md`](megareport.md) — publication source.
 - [`compiled-reports.md`](compiled-reports.md) — anthology of the seven canonical reports.
 - [`dist/ai-code-review-study-evidence.zip`](dist/ai-code-review-study-evidence.zip) —
