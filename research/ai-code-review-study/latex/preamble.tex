@@ -1,0 +1,100 @@
+% Light technical-report styling for the LLxprt review study.
+\usepackage[letterpaper,margin=0.82in,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{Charter}
+\setsansfont{Helvetica Neue}
+\setmonofont[Scale=0.86]{Menlo}
+\usepackage{xcolor}
+\definecolor{Ink}{HTML}{172033}
+\definecolor{Muted}{HTML}{5D6878}
+\definecolor{Accent}{HTML}{2457A7}
+\definecolor{AccentLight}{HTML}{EAF1FB}
+\definecolor{Rule}{HTML}{CBD5E1}
+\definecolor{TableAlt}{HTML}{F5F7FA}
+\color{Ink}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.055}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4.5pt plus 1pt minus 1pt}
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\sffamily\bfseries\color{Ink}}
+  {\color{Accent}\fontsize{12}{14}\selectfont\MakeUppercase{\chaptertitlename}\ \thechapter}
+  {5pt}{\fontsize{27}{31}\selectfont}
+\titlespacing*{\chapter}{0pt}{-16pt}{20pt}
+\titleformat{\section}{\sffamily\bfseries\Large\color{Ink}}{\thesection}{0.65em}{}
+\titleformat{\subsection}{\sffamily\bfseries\large\color{Accent}}{\thesubsection}{0.65em}{}
+\titleformat{\subsubsection}{\sffamily\bfseries\normalsize\color{Ink}}{\thesubsubsection}{0.65em}{}
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{13pt}{5pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\small\color{Muted}AI Code Review Systems}
+\fancyhead[R]{\sffamily\small\color{Muted}\nouppercase{\leftmark}}
+\fancyfoot[C]{\sffamily\small\color{Muted}\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{Rule}\leaders\hrule height \headrulewidth\hfill}}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\renewcommand{\arraystretch}{1.18}
+\arrayrulecolor{Rule}
+\AtBeginEnvironment{longtable}{\small}
+\AtBeginEnvironment{tabular}{\small}
+\usepackage{graphicx}
+\setkeys{Gin}{width=0.94\linewidth,height=0.76\textheight,keepaspectratio}
+\usepackage{caption}
+\captionsetup{font=small,labelfont={bf,sf,color=Accent},textfont={color=Muted},skip=5pt}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.35em,topsep=3pt}
+\usepackage{csquotes}
+\usepackage{xurl}
+\usepackage{newunicodechar}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=Accent,urlcolor=Accent,citecolor=Accent,pdfborder={0 0 0}}
+\setlength{\emergencystretch}{2em}
+\sloppy
+\usepackage[most]{tcolorbox}
+\newtcolorbox{decisionbox}{
+  colback=AccentLight,colframe=Accent,boxrule=0.6pt,arc=1.2mm,
+  left=7pt,right=7pt,top=6pt,bottom=6pt
+}
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\begin{decisionbox}\sffamily\small}
+\AtEndEnvironment{quote}{\end{decisionbox}}
+\usepackage{needspace}
+\pretocmd{\section}{\Needspace{6\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{4\baselineskip}}{}{}
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\usepackage{bookmark}
+
+\makeatletter
+\renewcommand{\maketitle}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \vspace*{0.45in}
+    {\color{Accent}\rule{\textwidth}{2.5pt}\par}
+    \vspace{0.65in}
+    {\sffamily\small\bfseries\color{Accent}\MakeUppercase{Technical Research Report}\par}
+    \vspace{0.28in}
+    {\raggedright\sffamily\bfseries\fontsize{31}{35}\selectfont\color{Ink}\@title\par}
+    \vspace{0.32in}
+    {\sffamily\fontsize{16}{20}\selectfont\color{Muted}Complementarity, Reliability, Provider Quality, and Duplicate Mitigation\par}
+    \vspace{0.55in}
+    {\color{Rule}\rule{0.72\textwidth}{0.7pt}\par}
+    \vspace{0.35in}
+    {\sffamily\normalsize\color{Ink}A documentary study of CodeRabbit and Alibaba OpenCodeReview across three VybeStack repositories.\par}
+    \vfill
+    {\sffamily\small\color{Muted}\@author\par\vspace{0.08in}\@date\par}
+    \vspace{0.28in}
+    {\color{Accent}\rule{\textwidth}{1.2pt}\par}
+  \end{titlepage}%
+}
+\makeatother

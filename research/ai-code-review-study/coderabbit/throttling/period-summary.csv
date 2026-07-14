@@ -1,0 +1,16 @@
+period_id,label,repository,start_at,end_at,days,touched_prs_opened,touched_prs_per_week,commits_on_touched_prs,commits_per_touched_pr,estimated_push_updates,completed_review_signals,blocked_comments,block_rate_of_observed_outcomes,high_confidence_response_updates,medium_confidence_response_updates,temporal_only_updates
+P0,pre_retained_limits,llxprt-code,2025-11-12T00:00:00Z,2026-06-09T20:36:11Z,209.86,569,18.98,4703,8.27,4134,28,0,0.0,18,33,0
+P0,pre_retained_limits,llxprt-jefe,2025-11-12T00:00:00Z,2026-06-09T20:36:11Z,209.86,14,0.47,78,5.57,64,40,0,0.0,28,38,0
+P0,pre_retained_limits,llxprt-luther,2025-11-12T00:00:00Z,2026-06-09T20:36:11Z,209.86,3,0.1,4,1.33,1,1,0,0.0,0,1,0
+P1,could_not_start_wording,llxprt-code,2026-06-09T20:36:11Z,2026-06-25T00:00:00Z,15.14,84,38.83,396,4.71,312,107,22,0.1705,90,152,10
+P1,could_not_start_wording,llxprt-jefe,2026-06-09T20:36:11Z,2026-06-25T00:00:00Z,15.14,18,8.32,35,1.94,17,21,7,0.25,21,9,0
+P1,could_not_start_wording,llxprt-luther,2026-06-09T20:36:11Z,2026-06-25T00:00:00Z,15.14,26,12.02,38,1.46,12,13,19,0.5938,6,6,0
+P2,adaptive_wording_pre_config,llxprt-code,2026-06-25T00:00:00Z,2026-07-04T20:40:19Z,9.86,78,55.37,427,5.47,349,94,49,0.3427,99,193,17
+P2,adaptive_wording_pre_config,llxprt-jefe,2026-06-25T00:00:00Z,2026-07-04T20:40:19Z,9.86,13,9.23,47,3.62,34,4,12,0.75,3,7,1
+P2,adaptive_wording_pre_config,llxprt-luther,2026-06-25T00:00:00Z,2026-07-04T20:40:19Z,9.86,26,18.46,63,2.42,37,19,22,0.5366,4,15,0
+P3,incremental_off,llxprt-code,2026-07-04T20:40:19Z,2026-07-06T19:33:17Z,1.95,14,50.17,74,5.29,60,10,0,0.0,11,30,2
+P3,incremental_off,llxprt-jefe,2026-07-04T20:40:19Z,2026-07-06T19:33:17Z,1.95,7,25.08,22,3.14,15,8,4,0.3333,2,8,0
+P3,incremental_off,llxprt-luther,2026-07-04T20:40:19Z,2026-07-06T19:33:17Z,1.95,3,10.75,35,11.67,32,5,3,0.375,7,15,0
+P4,incremental_on_cap_3,llxprt-code,2026-07-06T19:33:17Z,2026-07-14T23:59:59Z,8.19,89,76.11,1147,12.89,1058,45,43,0.4886,30,210,55
+P4,incremental_on_cap_3,llxprt-jefe,2026-07-06T19:33:17Z,2026-07-14T23:59:59Z,8.19,71,60.72,463,6.52,392,54,66,0.55,32,158,1
+P4,incremental_on_cap_3,llxprt-luther,2026-07-06T19:33:17Z,2026-07-14T23:59:59Z,8.19,9,7.7,68,7.56,59,10,9,0.4737,6,39,11

@@ -1,0 +1,4 @@
+repository,repository_url,visibility,repository_created_at,retained_coderabbit_issue_comments,coderabbit_touched_prs,first_retained_activity_at,first_pr_number,explicit_limit_comments,coderabbit_config_commits,retrieved_on
+llxprt-code,https://github.com/vybestack/llxprt-code,public,2025-06-25T20:55:44Z,2639,834,2025-11-12T21:55:37Z,559,114,3,2026-07-14
+llxprt-jefe,https://github.com/vybestack/llxprt-jefe,public,2026-02-17T11:36:33Z,287,123,2026-03-27T16:18:00Z,10,89,0,2026-07-14
+llxprt-luther,https://github.com/vybestack/llxprt-luther,public,2026-04-13T04:43:13Z,152,67,2026-06-05T23:25:00Z,27,53,0,2026-07-14

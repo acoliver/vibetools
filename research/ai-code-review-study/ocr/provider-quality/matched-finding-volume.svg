@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+<title id="title">Matched OCR finding volume per 90 reviewed files</title>
+<desc id="desc">Z.ai GLM-5.2 emitted 61 findings and 51 deduplicated claims. StepFun Step-3.7-Flash emitted 31 findings and 29 deduplicated claims. The StepFun run had 16 failed subtasks.</desc>
+<rect width="760" height="360" fill="#fafafa"/>
+<text x="50" y="38" font-family="system-ui,sans-serif" font-size="20" fill="#1f2937">Matched run M001 — same commit, 90 reviewed files</text>
+<text x="50" y="62" font-family="system-ui,sans-serif" font-size="13" fill="#4b5563">Counts are descriptive; StepFun had 16 failed subtasks.</text>
+<line x1="190" y1="300" x2="710" y2="300" stroke="#9ca3af"/>
+<text x="45" y="135" font-family="system-ui,sans-serif" font-size="14" fill="#1f2937">Z.ai GLM-5.2</text>
+<text x="45" y="235" font-family="system-ui,sans-serif" font-size="14" fill="#1f2937">StepFun 3.7 Flash</text>
+<rect x="190" y="100" width="488" height="30" fill="#4678a8"/>
+<rect x="190" y="135" width="408" height="22" fill="#9ab8d3"/>
+<rect x="190" y="200" width="248" height="30" fill="#b36b3f"/>
+<rect x="190" y="235" width="232" height="22" fill="#d7aa8d"/>
+<text x="686" y="121" font-family="system-ui,sans-serif" font-size="14" fill="#1f2937">61 findings</text>
+<text x="606" y="152" font-family="system-ui,sans-serif" font-size="14" fill="#1f2937">51 unique</text>
+<text x="446" y="221" font-family="system-ui,sans-serif" font-size="14" fill="#1f2937">31 findings</text>
+<text x="430" y="252" font-family="system-ui,sans-serif" font-size="14" fill="#1f2937">29 unique</text>
+<text x="190" y="325" font-family="system-ui,sans-serif" font-size="12" fill="#4b5563">0</text>
+<text x="670" y="325" font-family="system-ui,sans-serif" font-size="12" fill="#4b5563">60 findings</text>
+</svg>

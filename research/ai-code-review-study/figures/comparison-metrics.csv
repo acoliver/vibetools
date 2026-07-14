@@ -1,0 +1,8 @@
+metric,ocr_value,coderabbit_value,denominator_note
+normalized_findings,74,31,Selected exact-head iterations; same six PRs
+duplicate_rate_pct,12.9,3.1,OCR 11/85 raw; CR 1/32 raw
+classified_rows,33,23,Capped at six per reviewer per PR
+valid_or_partial_among_adjudicated_pct,81.3,83.3,OCR 13/16; CR 10/12
+unadjudicated_share_pct,51.5,47.8,OCR 17/33; CR 11/23 of classified rows
+overlap_groups,10,10,Semantic union 46; Jaccard 21.7%
+unadjudicated_classified_rows,28,28,Combined 28/56 of all classified rows

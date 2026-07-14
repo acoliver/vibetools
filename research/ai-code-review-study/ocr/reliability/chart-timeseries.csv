@@ -1,0 +1,6 @@
+date,attempts,successes,partials,failures,usable_outputs,provider_transition
+2026-07-10,31,31,0,0,31,Z.ai snapshot
+2026-07-11,27,27,0,0,27,
+2026-07-12,40,32,5,3,37,StepFun first interval
+2026-07-13,22,11,11,0,22,Z.ai→StepFun
+2026-07-14,25,16,9,0,25,Pro→Max→Z.ai

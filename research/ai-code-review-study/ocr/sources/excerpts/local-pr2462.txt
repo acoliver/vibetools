@@ -1,0 +1,20 @@
+SOURCE ID: L1
+Original path: $TMPDIR/ocr_review_pr2462.log
+SHA-256: 3709e681117933b7a918a145bca23cdd7dcfefa39df2e60201f1fd198517ec61
+Observed mtime/size: 2026-07-12T11:28:18Z / 2,134 bytes
+Extraction: ANSI escapes removed; retained summary and each finding's location, OCR category/severity, and first complete sentence. No credentials were present.
+Provenance limitation: filename associates this with PR 2462, but the log does not record reviewed SHA, base/range, command, model/provider, rule file, or working-tree state.
+
+[ocr] Summary: 12 file(s) reviewed, 4 comment(s).
+
+1. packages/mcp/src/client/mcp-oauth-helpers.ts:195 [bug · medium]
+The guard key uses `\0` as a separator, which can cause collisions if either the server name or URL contains a null character.
+
+2. packages/mcp/src/client/mcp-oauth-helpers.ts:139 [maintainability · low]
+The variable stores the minimum index of either HTTP or HTTPS URLs, not specifically HTTP; rename it to reflect its purpose.
+
+3. packages/mcp/src/client/mcp-client.oauth.test.ts:220-222 [bug · high]
+`showAuthRequiredMessage` throws `UnauthorizedError`, but `isAuthenticationError` only matches native `Error` instances; the finding says the subclass may be lost.
+
+4. packages/mcp/src/client/mcp-oauth-helpers.ts:134-166 [test · medium]
+Add a case with several URLs after the deprecation signal where the first is a documentation URL rather than the replacement endpoint.

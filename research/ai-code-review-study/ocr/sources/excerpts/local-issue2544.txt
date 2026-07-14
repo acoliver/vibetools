@@ -1,0 +1,20 @@
+SOURCE ID: L2
+Original path: $TMPDIR/ocr_review_2544.log
+SHA-256: c377ad7695bd130ba4715dced54bb45eb60ecf53a4d39b109bfbc23c1bde06fe
+Observed mtime/size: 2026-07-13T16:32:37Z / 14,924 bytes
+Extraction: parsed `.summary`, `.comments[]`, and `.session_id`; copied classifications and concise first-sentence paraphrases. Suggestions, existing-code payloads, provider URL/error payload, token totals, and unrelated content were omitted.
+Provenance limitation: this is a local issue-2544 remediation review, not PR 2547 and not evidence of an exact CI range. The JSON says 12 files and 11 comments, status `completed_with_errors`.
+
+Session: e3edffa9-ce8d-41ac-a6bf-0eb376088a6d
+Severity totals: high 5; medium 3; low 3.
+Category totals: bug 8; test 2; maintainability 1.
+
+Representative extracts:
+- packages/agents/src/core/client.model-profile.test.ts [bug · high]: `_getEffectiveModelIdentity()` seeds provider identity from runtime state even when no chat/provider is active; OCR recommended config-first identity until routing confirms it.
+- packages/agents/src/core/client.ts:242-247 [bug · high]: a profile event overwrites runtime provider without validating that the payload belongs to the configured runtime.
+- packages/agents/src/core/client.ts:152 [bug · medium]: two asynchronous writers can overwrite runtime state without an ordering/version guard.
+- packages/agents/src/core/MessageStreamOrchestrator.modelinfo.test.ts:362 [test · medium]: changed inputs make a precedence test pass trivially rather than prove profile resolution.
+- packages/providers/src/runtime/runtimeAccessors.ts:524-555 [bug · high]: OCR says provider-resolution precedence can report config identity while a different provider is active.
+- packages/agents/src/core/modelInfoHelpers.ts:26-34 [bug · high]: blanket exception swallowing can hide provider failures and combine a fallback model with stale provider identity.
+
+The canonical 11-row extract is `../local-findings.csv` (source_id L2).

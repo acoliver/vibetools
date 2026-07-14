@@ -22,6 +22,7 @@ issue so the work and the rationale stay visible.
 | **Review configs** (OCR + CodeRabbit) | `review-configs/` | Available — see #10 |
 | **CI quality gates** | `ci-gates/{language}/` | Available — see #11 |
 | **Agent skills** | `skills/` | Available — see #15 |
+| **Review research** | `research/ai-code-review-study/` | Published study, evidence, and generators |
 
 Existing reference notes in `docs/` (`TYPESCRIPT_STANDARDS.md`, `TESTING_GUIDE.md`,
 `MOCKING_STRATEGY.md`) are retained as source material and will be folded into the
@@ -135,6 +136,19 @@ cp review-configs/coderabbit/.coderabbit.yaml your-project/.coderabbit.yaml
 ```
 
 See [`review-configs/README.md`](review-configs/README.md) for full details.
+
+## Review research
+
+A reproducible study of CodeRabbit and Alibaba OpenCodeReview lives at
+[`research/ai-code-review-study/`](research/ai-code-review-study/). It includes a
+typeset PDF, the integrated Markdown report, seven canonical reports, derived
+evidence tables, publication figures, and the generators used to rebuild them.
+The accompanying ZIP bundles the PDF with the evidence it references.
+
+The study's principal conclusion is complementarity rather than a reviewer or
+provider ranking: matched reviews found different validated defects, while
+provider quality and availability comparisons remain confounded by coverage,
+policy, and period changes.
 
 ## CI gates
 

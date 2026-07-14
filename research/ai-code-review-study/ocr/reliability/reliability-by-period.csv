@@ -1,0 +1,8 @@
+period_id,period,start_local,end_local_exclusive,configured_provider_or_tier,attempts,successes,success_pct,partials,partial_pct,hard_failures,hard_failure_pct,usable_outputs,usable_output_pct,http_429_affected,http_529_affected,auth_config_failures
+P0,Retained pre-attribution,0001-01-01T00:00:00+00:00,2026-07-10T18:36:04-03:00,unknown,28,28,100.0,0,0.0,0,0.0,28,100.0,0,0,0
+P1,Z.ai first retained interval,2026-07-10T18:36:04-03:00,2026-07-12T19:48:16-03:00,Z.ai,55,53,96.4,1,1.8,1,1.8,54,98.2,1,0,1
+P2,StepFun first interval,2026-07-12T19:48:16-03:00,2026-07-13T15:43:41-03:00,StepFun,18,10,55.6,6,33.3,2,11.1,16,88.9,4,2,2
+P3,Z.ai return interval,2026-07-13T15:43:41-03:00,2026-07-13T21:21:51-03:00,Z.ai,12,5,41.7,7,58.3,0,0.0,12,100.0,7,0,0
+P4,StepFun Pro interval,2026-07-13T21:21:51-03:00,2026-07-14T04:56:23-03:00,StepFun Pro,15,11,73.3,4,26.7,0,0.0,15,100.0,2,2,0
+P5,StepFun Max interval,2026-07-14T04:56:23-03:00,2026-07-14T12:46:25-03:00,StepFun Max,10,6,60.0,4,40.0,0,0.0,10,100.0,2,2,0
+P6,Z.ai fallback interval,2026-07-14T12:46:25-03:00,9999-12-31T23:59:59+00:00,Z.ai,7,4,57.1,3,42.9,0,0.0,7,100.0,3,0,0

@@ -1,0 +1,340 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1180' height='1140' viewBox='0 0 1180 1140'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='78' y='34' font-size='22' font-weight='700' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>Weekly llxprt PR activity and CodeRabbit outcomes</text>
+<text x='78' y='57' font-size='13' fill='#475569' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>2026-06-01 through 2026-07-14; final week is partial</text>
+<text x='78' y='94' font-size='15' font-weight='650' fill='#0f172a' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>All projects: PR events vs successful reviews vs throttles</text>
+<line x1='78' y1='268.0' x2='1152' y2='268.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='272.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>0</text>
+<line x1='78' y1='227.0' x2='1152' y2='227.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='231.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>314</text>
+<line x1='78' y1='186.0' x2='1152' y2='186.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='190.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>628</text>
+<line x1='78' y1='145.0' x2='1152' y2='145.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='149.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>943</text>
+<line x1='78' y1='104.0' x2='1152' y2='104.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='108.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>1257</text>
+<line x1='78.0' y1='104' x2='78.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='257.0' y1='104' x2='257.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='436.0' y1='104' x2='436.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='615.0' y1='104' x2='615.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='794.0' y1='104' x2='794.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='973.0' y1='104' x2='973.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='1152.0' y1='104' x2='1152.0' y2='268' stroke='#f1f5f9' stroke-width='1'/>
+<polyline points='78.0,262.1 257.0,244.1 436.0,249.3 615.0,218.0 794.0,213.9 973.0,104.0 1152.0,206.3' fill='none' stroke='#7c3aed' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='262.1' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-06-01: 45</title>
+<circle cx='257.0' cy='244.1' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-06-08: 183</title>
+<circle cx='436.0' cy='249.3' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-06-15: 143</title>
+<circle cx='615.0' cy='218.0' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-06-22: 383</title>
+<circle cx='794.0' cy='213.9' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-06-29: 415</title>
+<circle cx='973.0' cy='104.0' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-07-06: 1257</title>
+<circle cx='1152.0' cy='206.3' r='3.5' fill='#7c3aed'/>
+<title>PR events 2026-07-13: 473</title>
+<line x1='650' y1='82' x2='674' y2='82' stroke='#7c3aed' stroke-width='3'/>
+<text x='681' y='87' font-size='12' fill='#334155' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>PR events</text>
+<polyline points='78.0,265.3 257.0,262.3 436.0,262.1 615.0,254.3 794.0,257.0 973.0,255.6 1152.0,264.9' fill='none' stroke='#0891b2' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='265.3' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-06-01: 21</title>
+<circle cx='257.0' cy='262.3' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-06-08: 44</title>
+<circle cx='436.0' cy='262.1' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-06-15: 45</title>
+<circle cx='615.0' cy='254.3' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-06-22: 105</title>
+<circle cx='794.0' cy='257.0' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-06-29: 84</title>
+<circle cx='973.0' cy='255.6' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-07-06: 95</title>
+<circle cx='1152.0' cy='264.9' r='3.5' fill='#0891b2'/>
+<title>Successful reviews 2026-07-13: 24</title>
+<line x1='810' y1='82' x2='834' y2='82' stroke='#0891b2' stroke-width='3'/>
+<text x='841' y='87' font-size='12' fill='#334155' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>Successful reviews</text>
+<polyline points='78.0,268.0 257.0,265.1 436.0,266.8 615.0,262.8 794.0,259.8 973.0,256.3 1152.0,263.8' fill='none' stroke='#be123c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='268.0' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-06-01: 0</title>
+<circle cx='257.0' cy='265.1' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-06-08: 22</title>
+<circle cx='436.0' cy='266.8' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-06-15: 9</title>
+<circle cx='615.0' cy='262.8' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-06-22: 40</title>
+<circle cx='794.0' cy='259.8' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-06-29: 63</title>
+<circle cx='973.0' cy='256.3' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-07-06: 90</title>
+<circle cx='1152.0' cy='263.8' r='3.5' fill='#be123c'/>
+<title>Throttles 2026-07-13: 32</title>
+<line x1='970' y1='82' x2='994' y2='82' stroke='#be123c' stroke-width='3'/>
+<text x='1001' y='87' font-size='12' fill='#334155' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>Throttles</text>
+<line x1='650' y1='292' x2='674' y2='292' stroke='#2563eb' stroke-width='3'/>
+<text x='681' y='297' font-size='12' fill='#334155' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>llxprt-code</text>
+<line x1='805' y1='292' x2='829' y2='292' stroke='#dc2626' stroke-width='3'/>
+<text x='836' y='297' font-size='12' fill='#334155' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>llxprt-jefe</text>
+<line x1='960' y1='292' x2='984' y2='292' stroke='#16a34a' stroke-width='3'/>
+<text x='991' y='297' font-size='12' fill='#334155' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>llxprt-luther</text>
+<text x='78' y='294' font-size='15' font-weight='650' fill='#0f172a' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>PRs opened</text>
+<line x1='78' y1='468.0' x2='1152' y2='468.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='472.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>0</text>
+<line x1='78' y1='427.0' x2='1152' y2='427.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='431.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>20</text>
+<line x1='78' y1='386.0' x2='1152' y2='386.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='390.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>41</text>
+<line x1='78' y1='345.0' x2='1152' y2='345.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='349.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>62</text>
+<line x1='78' y1='304.0' x2='1152' y2='304.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='308.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>82</text>
+<line x1='78.0' y1='304' x2='78.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='257.0' y1='304' x2='257.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='436.0' y1='304' x2='436.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='615.0' y1='304' x2='615.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='794.0' y1='304' x2='794.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='973.0' y1='304' x2='973.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='1152.0' y1='304' x2='1152.0' y2='468' stroke='#f1f5f9' stroke-width='1'/>
+<polyline points='78.0,432.0 257.0,400.0 436.0,404.0 615.0,352.0 794.0,360.0 973.0,304.0 1152.0,442.0' fill='none' stroke='#2563eb' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='432.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-01: 18</title>
+<circle cx='257.0' cy='400.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-08: 34</title>
+<circle cx='436.0' cy='404.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-15: 32</title>
+<circle cx='615.0' cy='352.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-22: 58</title>
+<circle cx='794.0' cy='360.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-29: 54</title>
+<circle cx='973.0' cy='304.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-06: 82</title>
+<circle cx='1152.0' cy='442.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-13: 13</title>
+<polyline points='78.0,468.0 257.0,466.0 436.0,454.0 615.0,444.0 794.0,436.0 973.0,368.0 1152.0,418.0' fill='none' stroke='#dc2626' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='468.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-01: 0</title>
+<circle cx='257.0' cy='466.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-08: 1</title>
+<circle cx='436.0' cy='454.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-15: 7</title>
+<circle cx='615.0' cy='444.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-22: 12</title>
+<circle cx='794.0' cy='436.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-29: 16</title>
+<circle cx='973.0' cy='368.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-06: 50</title>
+<circle cx='1152.0' cy='418.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-13: 25</title>
+<polyline points='78.0,464.0 257.0,432.0 436.0,456.0 615.0,452.0 794.0,422.0 973.0,448.0 1152.0,468.0' fill='none' stroke='#16a34a' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='464.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-01: 2</title>
+<circle cx='257.0' cy='432.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-08: 18</title>
+<circle cx='436.0' cy='456.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-15: 6</title>
+<circle cx='615.0' cy='452.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-22: 8</title>
+<circle cx='794.0' cy='422.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-29: 23</title>
+<circle cx='973.0' cy='448.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-06: 10</title>
+<circle cx='1152.0' cy='468.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-13: 0</title>
+<text x='78' y='494' font-size='15' font-weight='650' fill='#0f172a' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>PR updates (commit proxy)</text>
+<line x1='78' y1='668.0' x2='1152' y2='668.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='672.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>0</text>
+<line x1='78' y1='627.0' x2='1152' y2='627.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='631.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>200</text>
+<line x1='78' y1='586.0' x2='1152' y2='586.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='590.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>400</text>
+<line x1='78' y1='545.0' x2='1152' y2='545.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='549.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>601</text>
+<line x1='78' y1='504.0' x2='1152' y2='504.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='508.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>801</text>
+<line x1='78.0' y1='504' x2='78.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='257.0' y1='504' x2='257.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='436.0' y1='504' x2='436.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='615.0' y1='504' x2='615.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='794.0' y1='504' x2='794.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='973.0' y1='504' x2='973.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='1152.0' y1='504' x2='1152.0' y2='668' stroke='#f1f5f9' stroke-width='1'/>
+<polyline points='78.0,663.1 257.0,642.8 436.0,650.4 615.0,615.2 794.0,615.8 973.0,504.0 1152.0,609.9' fill='none' stroke='#2563eb' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='663.1' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-01: 24</title>
+<circle cx='257.0' cy='642.8' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-08: 123</title>
+<circle cx='436.0' cy='650.4' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-15: 86</title>
+<circle cx='615.0' cy='615.2' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-22: 258</title>
+<circle cx='794.0' cy='615.8' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-29: 255</title>
+<circle cx='973.0' cy='504.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-06: 801</title>
+<circle cx='1152.0' cy='609.9' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-13: 284</title>
+<polyline points='78.0,668.0 257.0,667.8 436.0,666.4 615.0,660.4 794.0,664.9 973.0,617.6 1152.0,637.1' fill='none' stroke='#dc2626' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='668.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-01: 0</title>
+<circle cx='257.0' cy='667.8' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-08: 1</title>
+<circle cx='436.0' cy='666.4' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-15: 8</title>
+<circle cx='615.0' cy='660.4' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-22: 37</title>
+<circle cx='794.0' cy='664.9' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-29: 15</title>
+<circle cx='973.0' cy='617.6' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-06: 246</title>
+<circle cx='1152.0' cy='637.1' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-13: 151</title>
+<polyline points='78.0,667.8 257.0,666.8 436.0,667.2 615.0,666.0 794.0,657.4 973.0,654.1 1152.0,668.0' fill='none' stroke='#16a34a' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='667.8' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-01: 1</title>
+<circle cx='257.0' cy='666.8' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-08: 6</title>
+<circle cx='436.0' cy='667.2' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-15: 4</title>
+<circle cx='615.0' cy='666.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-22: 10</title>
+<circle cx='794.0' cy='657.4' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-29: 52</title>
+<circle cx='973.0' cy='654.1' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-06: 68</title>
+<circle cx='1152.0' cy='668.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-13: 0</title>
+<text x='78' y='694' font-size='15' font-weight='650' fill='#0f172a' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>Completed review signals</text>
+<line x1='78' y1='868.0' x2='1152' y2='868.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='872.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>0</text>
+<line x1='78' y1='827.0' x2='1152' y2='827.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='831.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>21</text>
+<line x1='78' y1='786.0' x2='1152' y2='786.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='790.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>42</text>
+<line x1='78' y1='745.0' x2='1152' y2='745.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='749.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>64</text>
+<line x1='78' y1='704.0' x2='1152' y2='704.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='708.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>85</text>
+<line x1='78.0' y1='704' x2='78.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='257.0' y1='704' x2='257.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='436.0' y1='704' x2='436.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='615.0' y1='704' x2='615.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='794.0' y1='704' x2='794.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='973.0' y1='704' x2='973.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<line x1='1152.0' y1='704' x2='1152.0' y2='868' stroke='#f1f5f9' stroke-width='1'/>
+<polyline points='78.0,829.4 257.0,796.6 436.0,806.3 615.0,704.0 794.0,752.2 973.0,785.0 1152.0,856.4' fill='none' stroke='#2563eb' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='829.4' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-01: 20</title>
+<circle cx='257.0' cy='796.6' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-08: 37</title>
+<circle cx='436.0' cy='806.3' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-15: 32</title>
+<circle cx='615.0' cy='704.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-22: 85</title>
+<circle cx='794.0' cy='752.2' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-29: 60</title>
+<circle cx='973.0' cy='785.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-06: 43</title>
+<circle cx='1152.0' cy='856.4' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-13: 6</title>
+<polyline points='78.0,868.0 257.0,866.1 436.0,852.6 615.0,842.9 794.0,852.6 973.0,790.8 1152.0,835.2' fill='none' stroke='#dc2626' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='868.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-01: 0</title>
+<circle cx='257.0' cy='866.1' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-08: 1</title>
+<circle cx='436.0' cy='852.6' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-15: 8</title>
+<circle cx='615.0' cy='842.9' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-22: 13</title>
+<circle cx='794.0' cy='852.6' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-29: 8</title>
+<circle cx='973.0' cy='790.8' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-06: 40</title>
+<circle cx='1152.0' cy='835.2' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-13: 17</title>
+<polyline points='78.0,866.1 257.0,856.4 436.0,858.4 615.0,854.5 794.0,837.1 973.0,844.8 1152.0,866.1' fill='none' stroke='#16a34a' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='866.1' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-01: 1</title>
+<circle cx='257.0' cy='856.4' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-08: 6</title>
+<circle cx='436.0' cy='858.4' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-15: 5</title>
+<circle cx='615.0' cy='854.5' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-22: 7</title>
+<circle cx='794.0' cy='837.1' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-29: 16</title>
+<circle cx='973.0' cy='844.8' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-06: 12</title>
+<circle cx='1152.0' cy='866.1' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-13: 1</title>
+<text x='78' y='894' font-size='15' font-weight='650' fill='#0f172a' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>Throttle events</text>
+<line x1='78' y1='1068.0' x2='1152' y2='1068.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='1072.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>0</text>
+<line x1='78' y1='1027.0' x2='1152' y2='1027.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='1031.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>11</text>
+<line x1='78' y1='986.0' x2='1152' y2='986.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='990.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>22</text>
+<line x1='78' y1='945.0' x2='1152' y2='945.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='949.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>34</text>
+<line x1='78' y1='904.0' x2='1152' y2='904.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='68' y='908.0' text-anchor='end' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>45</text>
+<line x1='78.0' y1='904' x2='78.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='78.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>06-01</text>
+<line x1='257.0' y1='904' x2='257.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='257.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>06-08</text>
+<line x1='436.0' y1='904' x2='436.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='436.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>06-15</text>
+<line x1='615.0' y1='904' x2='615.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='615.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>06-22</text>
+<line x1='794.0' y1='904' x2='794.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='794.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>06-29</text>
+<line x1='973.0' y1='904' x2='973.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='973.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>07-06</text>
+<line x1='1152.0' y1='904' x2='1152.0' y2='1068' stroke='#f1f5f9' stroke-width='1'/>
+<text x='1152.0' y='1088' text-anchor='middle' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>07-13</text>
+<polyline points='78.0,1068.0 257.0,1038.8 436.0,1057.1 615.0,962.3 794.0,955.0 973.0,940.4 1152.0,1038.8' fill='none' stroke='#2563eb' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='1068.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-01: 0</title>
+<circle cx='257.0' cy='1038.8' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-08: 8</title>
+<circle cx='436.0' cy='1057.1' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-15: 3</title>
+<circle cx='615.0' cy='962.3' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-22: 29</title>
+<circle cx='794.0' cy='955.0' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-06-29: 31</title>
+<circle cx='973.0' cy='940.4' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-06: 35</title>
+<circle cx='1152.0' cy='1038.8' r='3.5' fill='#2563eb'/>
+<title>llxprt-code 2026-07-13: 8</title>
+<polyline points='78.0,1068.0 257.0,1064.4 436.0,1064.4 615.0,1046.1 794.0,1024.3 973.0,904.0 1152.0,980.5' fill='none' stroke='#dc2626' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='1068.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-01: 0</title>
+<circle cx='257.0' cy='1064.4' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-08: 1</title>
+<circle cx='436.0' cy='1064.4' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-15: 1</title>
+<circle cx='615.0' cy='1046.1' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-22: 6</title>
+<circle cx='794.0' cy='1024.3' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-06-29: 12</title>
+<circle cx='973.0' cy='904.0' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-06: 45</title>
+<circle cx='1152.0' cy='980.5' r='3.5' fill='#dc2626'/>
+<title>llxprt-jefe 2026-07-13: 24</title>
+<polyline points='78.0,1068.0 257.0,1020.6 436.0,1049.8 615.0,1049.8 794.0,995.1 973.0,1031.6 1152.0,1068.0' fill='none' stroke='#16a34a' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+<circle cx='78.0' cy='1068.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-01: 0</title>
+<circle cx='257.0' cy='1020.6' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-08: 13</title>
+<circle cx='436.0' cy='1049.8' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-15: 5</title>
+<circle cx='615.0' cy='1049.8' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-22: 5</title>
+<circle cx='794.0' cy='995.1' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-06-29: 20</title>
+<circle cx='973.0' cy='1031.6' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-06: 10</title>
+<circle cx='1152.0' cy='1068.0' r='3.5' fill='#16a34a'/>
+<title>llxprt-luther 2026-07-13: 0</title>
+<text x='78' y='1125' font-size='11' fill='#64748b' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'>PR events = PRs opened + estimated follow-up commit updates. Reviews and throttles are retained GitHub signals, not billing events.</text>
+</svg>

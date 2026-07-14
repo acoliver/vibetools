@@ -1,0 +1,38 @@
+SOURCE IDs: L3, L4, L5
+
+L3 original path: $TMPDIR/jefe-issue241-staged-review-20260714/.jefe/ocr_review.log
+L3 SHA-256: 39eff0419f2d80f83139d74bc5722dbc2d5414ec667fdf22587e7d20031cc8de
+L3 observed mtime/size: 2026-07-14T11:11:51Z / 9,005 bytes
+Extraction: omitted the leading unrelated llxprt-code JSON object; stripped ANSI escapes; retained only eight parseable Jefe plain-text finding blocks (six `src/`, one `tests/core`, one documentation). The source is composite and does not itself record a Jefe SHA/range, command, or configuration.
+
+L4 original path: $TMPDIR/jefe-issue241-staged-review-20260714/.jefe/ocr-triage.md
+L4 SHA-256: 94ecf409effa57b2157cdd6f862b8a65a754cd59fdb87764892043ba40c44016
+L4 observed mtime/size: 2026-07-14T11:11:51Z / 5,057 bytes
+Extraction: retained counts, classification headings, representative rationale, and conclusion; omitted unrelated CI narrative.
+
+L5 original path: $TMPDIR/ocr-batch6.md
+L5 SHA-256: 076996db48f1bcb21aad1b96c8f553924c3d1dca5c21fe5d8f4a04296789a7ad
+L5 observed mtime/size: 2026-07-13T20:10:18Z / 1,034 bytes
+Extraction: retained the three no-action decisions as a compact disconfirming snapshot.
+
+L3 parseable mounted-log findings (canonical rows are in `../local-findings.csv`):
+- issues_tests_detail_flow.rs:380-383 [bug · medium]: test no longer proves reload/cursor cleanup after repository switch.
+- prs_merge_ops.rs:173-180 [performance · medium]: full-list clone/replace instead of in-place mutation.
+- prs_integration_tests.rs [performance · low]: same clone/replace concern.
+- prs_test_fixtures.rs [maintainability · medium]: possible unmigrated direct-field callers.
+- message_bus_contracts.rs:235 [bug · high]: `starts_reload` test asserts loading false.
+- message_bus_contracts.rs:211-212 [documentation · low]: “Populate list” comment accompanies an empty list.
+- prs_tests_pagination.rs:110-152 [bug · medium]: missing pending-state assertion after stale pages.
+- prs_tests_pagination.rs:23-52 [maintainability · low]: `unwrap_or(0)` masks fixture drift.
+
+L4 triage states: “Evaluated all 29 inline findings + 1 summary finding” for PR #236, head `790d224`, and concludes no High/Medium functional issue warranted a code change. Its four heading counts are 16 invalid-stale-reference + 6 invalid-architecture + 5 out-of-scope + 4 low-priority = 31, inconsistent with the stated total 30. Therefore this artifact supports a no-action adjudication and false-positive mechanism, but not a reliable 30-row categorical allocation.
+
+Representative L4 rationale:
+- Findings referenced removed `loading.list`, `list_reload_pending`, and `list_cursor` fields after loading became derived from `PaginatedList`.
+- Several findings were said to cross the reducer/dispatch architecture boundary or request API expansion outside the PR.
+- Monotonic request IDs being consumed on non-started operations were classified as safe-by-design cleanliness, not functional defects.
+
+L5 contains three later “all no-action” OCR findings: an `Option<u64>` API followed established `begin_*` conventions; a suggested Rust assignment syntax was impossible for a method call; and a stale-failure finding misread whether pending state was cleared.
+
+Exact PR URL: https://github.com/vybestack/llxprt-jefe/pull/236
+Mutable OCR summary URL: https://github.com/vybestack/llxprt-jefe/pull/236#issuecomment-4950162896
